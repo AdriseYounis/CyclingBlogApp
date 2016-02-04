@@ -1,0 +1,23 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.setting-form{
+    position: absolute;
+    width: 100%;
+    left: 12%
+}
+
+.setting-fileup{
+    position: relative;
+    left: 30%;
+    margin-top: -22.5%;
+}
+
+.setting-button{
+    position: fixed;
+    right: 8%;
+    bottom: 8%
+}

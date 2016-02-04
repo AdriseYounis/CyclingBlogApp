@@ -1,0 +1,48 @@
+<div class="main">
+    <div class="header">
+        <img src="/images/CyclingLogo.gif" class="img-rounded logo" alt="CyclingLogo">
+        <div class="buttons">
+            <button id="btnLoginPage" class="btn btn-default btn-md user-button">Log in</button>
+            <button id="btnSignPage" class="btn btn-default btn-md user-button">Sign up</button>
+        </div>
+    </div>
+</div>
+
+<div class="second">
+    <div class="center">
+        <div class="form-div">
+            <h1 class="login-header">Blog Name</h1>
+            <p class="text-capitalize login-para">Share the things you love.</p>
+
+            <form ng-submit="signup()" class="signup">
+                <!--<input type="text" class="form-control buttonSize" placeholder="First name">-->
+                <!--<input type="text" class="form-control buttonSize" placeholder="Surname">-->
+                <input type="text" class="form-control buttonSize" ng-model="user.username" placeholder="username">
+                <input type="password" class="form-control buttonSize" ng-model="user.password" placeholder="Password"><br>
+                <button type="submit" class="btn btn-primary btn-md active buttonSize">Sign up</button>
+            </form>
+
+            <form ng-submit="login()" class="login">
+                <input type="text" class="form-control buttonSize" ng-model="user.username" placeholder="username">
+                <input type="password" class="form-control buttonSize" ng-model="user.password" placeholder="Password"><br/>
+                <button type="submit" class="btn btn-primary btn-md active buttonSize">Log in</button><br/><br/>
+                <p class="text-capitalize"><a id="link-forgotpassword">Forgot your password?</a></p>
+            </form>
+
+            <form ng-submit="forgotpassword()" class="forgotpassword">
+                <input type="text" class="form-control buttonSize" placeholder="Email">
+                <br/>
+                <button class="btn btn-default btn-reset">Cancel</button>
+                <button type="submit" class="btn btn-danger btn-reset"> Reset password</button>
+            </form>
+        </div>
+
+        <div class="upIcon">
+            <i class="fa fa-chevron-circle-down fa-3x"></i>
+        </div>
+
+        <div ng-show="error" class="alert alert-danger row">
+            <span>{{ error.message }}</span>
+        </div>
+    </div>
+</div>
