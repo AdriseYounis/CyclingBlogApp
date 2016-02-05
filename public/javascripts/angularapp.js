@@ -8,16 +8,23 @@
 
         function($stateProvider,$urlRouterProvider){
             $stateProvider
-                .state('registration',{
-                    url:'/registration',
-                    templateUrl: "templates/registration.html",
+                .state('preview',{
+                    url:'/preview',
+                    templateUrl: "templates/preview.html",
                     controller: "registration",
                     onEnter: ['$state', 'auth', function($state, auth){
                         if(auth.isLoggedIn()){
-                            $state.go('setting');
+                            $state.go('homepage');
                         }
                     }]
                 })
+
+                .state('homepage',{
+                    url:'/homepage',
+                    templateUrl: "templates/homepage.html",
+                    controller: "homepage"
+                })
+
                 .state('setting',{
                     url:'/setting',
                     templateUrl: "templates/setting.html",

@@ -31,57 +31,46 @@
                 $state.go('setting');
             });
          };
-            //$scope.regButton = function(){
-            //
-            //    //$('html, body').animate({scrollTop: $(".second").offset().top - 80},'slow');
-            //    jQuery('.logo').animate(
-            //        {
-            //            top: 300
-            //        }, console.log("working"));
-            //
-            //    console.log("end");
-            //};
 
-            $(".user-button").click(function() {
-                $('html, body').animate({scrollTop: $(".second").offset().top - 80},'slow');
-            });
+            //$('#myModal').on('shown.bs.modal', function () {
+            //    $('#myInput').focus()
+            //});
 
 
             //$(".user-button").click(function() {
-            //    jQuery('.second').animate(
-            //        {
-            //            top: -80
-            //        });
+            //    $('.second-wrapper').animate({top:'12%'}, 'slow');
+            //});
             //
-            //    //$('html, body').animate({scrollTop: $(".second").offset().top - 80},'slow');
-            //});
-
-
+            //
             //$(".upIcon").click(function() {
-            //    $('html, body').animate({scrollTop: '0px'}, 'slow');
+            //    $('.second-wrapper').animate({top:'100%'}, 'slow');
             //});
 
-            $(".login").hide();
-        $(".signup").hide();
-        $(".forgotpassword").hide();
-
-        $("#btnLoginPage").click(function() {
-            $(".login").show();
-            $(".signup").hide();
-            $(".forgotpassword").hide();
-        });
-
-        $("#btnSignPage").click(function() {
-            $(".signup").show();
-            $(".login").hide();
-            $(".forgotpassword").hide();
-        });
-
-        $("#link-forgotpassword").click(function(){
-            $(".forgotpassword").show();
-            $(".signup").hide();
-            $(".login").hide();
-        });
+            //$(".login").hide();
+            //$(".signup").hide();
+            //$(".forgotpassword").hide();
+            //
+            //$("#btnLoginPage").click(function() {
+            //    $(".login").show();
+            //    $(".signup").hide();
+            //    $(".forgotpassword").hide();
+            //});
+            //
+            //$("#btnSignPage").click(function() {
+            //    $(".signup").show();
+            //    $(".login").hide();
+            //    $(".forgotpassword").hide();
+            //});
+            //
+            //$("#link-forgotpassword").click(function(){
+            //    $(".forgotpassword").show();
+            //    $(".signup").hide();
+            //    $(".login").hide();
+            //});
+            //
+            //$('#myModal').on('shown.bs.modal', function () {
+            //    $('#myInput').focus()
+            //});
 
     }]);
 

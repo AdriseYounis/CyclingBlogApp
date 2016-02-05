@@ -1,0 +1,16 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+#map-canvas {
+    width: 645px;
+    height: 545px;
+}
+.show-routeinfo{
+    position: fixed;
+    height: 78%;
+    top: 17%;
+    width: 38.5%;
+    left: 61%;
+}

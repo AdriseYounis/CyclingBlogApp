@@ -1,0 +1,105 @@
+<div class="main">
+    <div class="header">
+         <img src="/images/CyclingLogo.gif" class="img-rounded logo" alt="CyclingLogo">
+        <div class="buttons">
+            <button id="btnLoginPage" class="btn btn-default btn-md" data-toggle="modal" data-target="#loginModel">Log in</button>
+            <button id="btnSignPage" class="btn btn-default btn-md" data-toggle="modal" data-target="#signupModel">Sign up</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="loginModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="panel-title">Login</h1>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="login()" class="formPosition">
+                    <div class="form-group">
+                        <br/>
+                        <label><span class="glyphicon glyphicon-user"></span> Email</label>
+                        <input type="text" class="form-control" ng-model="user.username" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                        <input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+                        <br/>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block formButtons"><span class="glyphicon glyphicon-off"></span> Login</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-signup"  class="close" data-dismiss="modal" data-toggle="modal" data-target="#signupModel"><span class="fa fa-user-plus"></span> Sign up</button>
+                <p class="link-forgotpassword"><a class="close" data-dismiss="modal"  data-toggle="modal" data-target="#resetPasswordModel">Forgot your password?</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="signupModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="panel-title">Sign up</h1>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="signup()" class="formPosition">
+                    <div class="form-group">
+                        <br/>
+                        <label><span class="glyphicon glyphicon-user"></span> Name</label>
+                        <input type="text" class="form-control buttonSize" placeholder="First name or Lastname" />
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="fa fa-envelope"></span> Email</label>
+                        <input type="text" class="form-control buttonSize" placeholder="First name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="fa fa-user-secret"></span> Username</label>
+                        <input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                        <input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+                        <br/>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block formButtons"><span class="fa fa-user-plus"></span> Create Account </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-signup" class="close" data-dismiss="modal" data-toggle="modal" data-target="#loginModel"><span class="glyphicon glyphicon-off"></span> Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resetPasswordModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="panel-title">Reset Password</h1>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="forgotpassword()" class="formPosition">
+                    <div class="form-group">
+                        <br/>
+                        <label><span class="fa fa-envelope"></span> Email</label>
+                        <input type="text" class="form-control buttonSize" placeholder="Email" />
+                    </div>
+                    <button type="submit" class="btn btn-danger"> Reset password</button>
+
+                    <input type="button" class="btn btn-warning btn-md" value="Cancel" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

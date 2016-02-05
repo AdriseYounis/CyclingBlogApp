@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 
 });
 
-/* GET signup submit. */
+/* POST signup submit. */
 router.post('/signup', function(req, res, next) {
   //checking username and password
     console.log(req.body);

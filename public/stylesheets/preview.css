@@ -1,0 +1,48 @@
+body {}
+.header {
+    position: fixed;
+    top: 0;
+    height: 12%;
+    width: 100%;
+    background: #66CDAA;
+}
+.buttons {
+    float: right;
+    display: block;
+    margin: 1.7%;
+    width: 12%;
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+    background-color: #0480be;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: white;
+}
+
+.formPosition{
+    margin:0 auto;
+    width: 70%;
+}
+
+.formButtons{
+    margin:0 auto;
+    width: 50%;
+}
+
+.btn-signup{
+    float: left;
+}
+
+.link-forgotpassword > *{
+    color: #0480be;
+    opacity: 1;
+}
+
+.logo{
+    height:70%;
+    width:5%;
+    margin: 0.8%;
+    transform: scale(1);
+}
