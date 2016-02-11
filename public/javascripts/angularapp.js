@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('cyclingblog', ['ui.router'])
+    angular.module('cyclingblog', ['ui.router', 'google-maps'])
         .config([
         "$stateProvider",
         "$urlRouterProvider",
@@ -22,7 +22,10 @@
                 .state('homepage',{
                     url:'/homepage',
                     templateUrl: "templates/homepage.html",
-                    controller: "homepage"
+                    controller: "homepage",
+                    onEnter:function(){
+                        $('#loginModel').modal("toggle");
+                    }
                 })
 
                 .state('setting',{
@@ -63,13 +66,13 @@
             }
         };
 
-        //returns the username of the user
+        //returns the name of the user
         auth.currentUser = function(){
             if(auth.isLoggedIn()){
                 var token = auth.getToken();
                 var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-                return payload.username;
+                return payload.name;
             }
         };
 

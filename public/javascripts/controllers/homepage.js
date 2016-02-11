@@ -6,13 +6,16 @@
     app.controller('homepage', [
         '$scope',
         '$state',
-        'auth', function ($scope,$state, auth) {
+        'auth', function ($scope,$state, auth, $window) {
 
             $scope.logout = function(){
                 auth.logout();
-                $state.go('registration');
+                $state.go('preview');
             };
 
+            $scope.userName = auth.currentUser();
+            console.log(auth.currentUser());
+            console.log($scope.userName);
 
             initialize();
 
@@ -23,18 +26,6 @@
                 $("#btnuploadremove1").removeAttr("disabled");
             });
 
-            function initialize() {
-                var mapCanvas = document.getElementById('map-canvas');
-                var mapOptions = {
-                    center: new google.maps.LatLng(44.5403, -78.5463),
-                    zoom: 8,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                var map = new google.maps.Map(mapCanvas, mapOptions)
-            }
-            google.maps.event.addDomListener(window, 'load', initialize);
-
-
             function AddBlog() {
 
                 window.location = "/addblog.html";
@@ -44,6 +35,27 @@
                 $(this).attr("disabled", "disabled");
                 $(".route-upload").show();
             });
+
+            function initialize() {
+                var mapCanvas = document.getElementById('map-canvas');
+
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+
+                            var mapOptions = {
+                                center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                                zoom: 8,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            };
+                            var map = new google.maps.Map(mapCanvas, mapOptions);
+                        });
+                    }
+
+
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
 
 
         }]);

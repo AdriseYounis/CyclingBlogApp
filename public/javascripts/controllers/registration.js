@@ -20,7 +20,7 @@
             auth.signup($scope.user).error(function(error){
                 $scope.error = error;
             }).then(function(){
-                $state.go('setting');
+                $state.go('homepage');
             });
         };
 
@@ -28,50 +28,9 @@
              auth.logIn($scope.user).error(function(error) {
                 $scope.error = error;
             }).then(function(){
-                $state.go('setting');
+                $state.go('homepage');
             });
          };
-
-            //$('#myModal').on('shown.bs.modal', function () {
-            //    $('#myInput').focus()
-            //});
-
-
-            //$(".user-button").click(function() {
-            //    $('.second-wrapper').animate({top:'12%'}, 'slow');
-            //});
-            //
-            //
-            //$(".upIcon").click(function() {
-            //    $('.second-wrapper').animate({top:'100%'}, 'slow');
-            //});
-
-            //$(".login").hide();
-            //$(".signup").hide();
-            //$(".forgotpassword").hide();
-            //
-            //$("#btnLoginPage").click(function() {
-            //    $(".login").show();
-            //    $(".signup").hide();
-            //    $(".forgotpassword").hide();
-            //});
-            //
-            //$("#btnSignPage").click(function() {
-            //    $(".signup").show();
-            //    $(".login").hide();
-            //    $(".forgotpassword").hide();
-            //});
-            //
-            //$("#link-forgotpassword").click(function(){
-            //    $(".forgotpassword").show();
-            //    $(".signup").hide();
-            //    $(".login").hide();
-            //});
-            //
-            //$('#myModal').on('shown.bs.modal', function () {
-            //    $('#myInput').focus()
-            //});
-
     }]);
 
 }());

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{CyclingBlogApp node_modules}" />
-    <file url="PROJECT" libraries="{angular, angular-animate, angular-ui-router, bootstrap, jasny-bootstrap, jquery, jquery.fullPage}" />
+    <file url="PROJECT" libraries="{angular, angular-animate, angular-google-maps, angular-ui-router, bootstrap, jasny-bootstrap, jquery, jquery.fullPage}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

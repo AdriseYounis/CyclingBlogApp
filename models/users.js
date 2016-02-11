@@ -12,6 +12,8 @@ var userSchema = new mongoose.Schema({
         lowercase:true,
         unique:true
     },
+    email:{type:String, lowercase:true, unique:true},
+    name:{type:String},
     hash:String,
     salt:String
 });
@@ -39,7 +41,9 @@ userSchema.methods.generateJWT = function(){
     return jwt.sign({
         _id: this._id, //payload, server and client has access
         username: this.username,
-        exp: parseInt(exp.getTime() / 1000), //check if the token expires, exp value in the payload is a Unix timestamp in seconds
+        email:this.email,
+        name:this.name,
+        exp: parseInt(exp.getTime() / 1000) //check if the token expires, exp value in the payload is a Unix timestamp in seconds
     }, 'SECRET'); //secret used to sign our tokens & should be a environment variable for referencing the secret and keep it out of your codebase.
 };
 

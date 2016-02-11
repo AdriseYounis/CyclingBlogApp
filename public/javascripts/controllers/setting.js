@@ -42,8 +42,7 @@
                         var t = time[i].textContent;
                         console.log(i + "  lat:  " + lat + "  lon: " + lon + "  time: " + t);
                     }
-                    console.log("xmlname:  " + xmlname);
-
+                        console.log("xmlname:  " + xmlname);
 
                         var progress = parseInt(theFile.loaded / theFile.total * 100, 10);
                          $('#progress .progress-bar').css(

@@ -25,7 +25,6 @@
             </div>
         </header>
         <div class="cd-content setting-form">
-            <form>
                 <div class="row">
                     <div class="form-group col-xs-5 col-lg-3">
                         <label>Firstname</label>
@@ -54,37 +53,40 @@
                     </div>
                 </div>
 
-                <div class="form-group col-lg-5 setting-fileup">
-                    <label>Upload Cycling Routes</label>
+                <form ng-submit="uploadroutes()">
+                    <div class="form-group col-lg-5 setting-fileup">
+                        <label>Upload Cycling Routes</label>
 
-                    <input type="file" accept=".xml" id="file" ng-disabled="true" />
-                    <br/>
+                        <input type="file" accept=".xml,.kmz,.gpx" id="file" ng-disabled="true" />
+                        <br/>
 
-                    <label>File Progress</label>
-                    <div id="progress" class="progress">
-                        <div class="progress-bar progress-bar-success "></div>
+                        <label>File Progress</label>
+                        <div id="progress" class="progress">
+                            <div class="progress-bar progress-bar-success"></div>
+                        </div>
+
+                        <button type="button" class="btn btn-success btn-s" ng-click="GetFile()" ng-disabled="!item">
+                            <span class="glyphicon glyphicon-upload"></span> Upload
+                        </button>
+                        <button type="button" class="btn btn-danger btn-s" ng-click="Remove()" ng-disabled="!remove">
+                            <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                        <br/>
+
                     </div>
-
-                    <button type="button" class="btn btn-success btn-s" ng-click="GetFile()" ng-disabled="!item">
-                        <span class="glyphicon glyphicon-upload"></span> Upload
-                    </button>
-                    <button type="button" class="btn btn-danger btn-s" ng-click="Remove()" ng-disabled="!remove">
-                        <span class="glyphicon glyphicon-trash"></span> Remove
-                    </button>
-                    <br/>
-
-                </div>
+                </form>
 
                 <div class="setting-button">
-                    <button type="button" ng-model="btnamend" ng-show="!showamend" ng-click="showamend=true; Amend()" class="btn btn-primary btn-md"><span class="fa fa-pencil-square-o"></span> Amend
+                    <button type="button" ng-model="btnamend" ng-show="!showamend" ng-click="showamend=true; Amend()" class="btn btn-primary btn-md">
+                        <span class="fa fa-pencil-square-o"></span> Amend
                     </button>
                     <button type="button" ng-model="btnsave" ng-show="showsave" class="btn btn-success btn-md">
                         <span class="fa fa-floppy-o"></span> Save
                     </button>
-                    <button type="button" ng-model="btncancel" ng-show="showCancel" ng-click="Cancel()" class="btn btn-warning btn-md"> <span class="fa fa-exclamation-triangle"></span> Cancel</button>
+                    <button type="button" ng-model="btncancel" ng-show="showCancel" ng-click="Cancel()" class="btn btn-warning btn-md">
+                        <span class="fa fa-exclamation-triangle"></span> Cancel
+                    </button>
                 </div>
-
-            </form>
         </div>
     </section>
 </main>
