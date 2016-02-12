@@ -26,9 +26,9 @@
         </header>
         <div class="cd-content">
             <form>
-
-                <div id="map-canvas">
-            </div>
+                <ng-map id="map" default-style="false" center="current-location" zoom="12">
+                    <marker position="current" animation="Animation.BOUNCE" centered="true"></marker>
+                </ng-map>
 
                 <div class="panel panel-default show-routeinfo">
 
@@ -38,16 +38,16 @@
 
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="latitude">Location</label>
-                            <input type="text" class="form-control" id="latitude" value="Birmingham" ng-model="" readonly>
+                            <label>Location</label>
+                            <input type="text" class="form-control" id="location" value="Birmingham" ng-model="" readonly>
                         </div>
 
                         <div class="form-group">
-                            <label for="latitude">Latitude</label>
+                            <label>Latitude</label>
                             <input type="text" class="form-control" id="latitude" value="39.500" ng-model="formData.latitude" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="longitude">Longitude</label>
+                            <label>Longitude</label>
                             <input type="text" class="form-control" id="longitude" value="-98.350" ng-model="formData.longitude" readonly>
                         </div>
                         <button type="submit" class="btn btn-success" onclick="AddBlog()">

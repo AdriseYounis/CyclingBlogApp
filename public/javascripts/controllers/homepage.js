@@ -17,8 +17,6 @@
             console.log(auth.currentUser());
             console.log($scope.userName);
 
-            initialize();
-
             $(".route-upload").hide();
 
             $('#file').change(function(evt) {
@@ -36,25 +34,7 @@
                 $(".route-upload").show();
             });
 
-            function initialize() {
-                var mapCanvas = document.getElementById('map-canvas');
 
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-
-                            var mapOptions = {
-                                center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                                zoom: 8,
-                                mapTypeId: google.maps.MapTypeId.ROADMAP
-                            };
-                            var map = new google.maps.Map(mapCanvas, mapOptions);
-                        });
-                    }
-
-
-            }
-
-            google.maps.event.addDomListener(window, 'load', initialize);
 
 
 

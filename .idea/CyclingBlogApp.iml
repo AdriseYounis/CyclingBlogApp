@@ -12,6 +12,9 @@
     <orderEntry type="library" name="jquery.fullPage" level="application" />
     <orderEntry type="library" name="angular-ui-router" level="application" />
     <orderEntry type="library" name="angular-animate" level="application" />
+    <orderEntry type="library" name="lodash" level="application" />
     <orderEntry type="library" name="angular-google-maps" level="application" />
+    <orderEntry type="library" name="angular-simple-logger" level="application" />
+    <orderEntry type="library" name="ng-map" level="application" />
   </component>
 </module>

@@ -66,7 +66,7 @@ router.get('/test', function(req, res, next){
     });
 });
 
-    //GET cycling routes POST
+    //storing cycling routes POST
 router.post('/uploadroutes', function(req,res,next){
     
 });

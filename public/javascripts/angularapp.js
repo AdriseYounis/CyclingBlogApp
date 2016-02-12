@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('cyclingblog', ['ui.router', 'google-maps'])
+    angular.module('cyclingblog', ['ui.router', 'ngMap'])
         .config([
         "$stateProvider",
         "$urlRouterProvider",

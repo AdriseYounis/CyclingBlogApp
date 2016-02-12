@@ -3,10 +3,12 @@ body {
     height: 100%;
     overflow: hidden;
 }
-#map-canvas {
+
+#map{
     width: 645px;
     height: 545px;
 }
+
 .show-routeinfo{
     position: fixed;
     height: 78%;
