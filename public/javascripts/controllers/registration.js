@@ -6,12 +6,9 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('registration', [
-        '$scope',
-        '$state',
-        'auth',
-
-        function ($scope, $state, auth) {
+    app.controller('registration',
+        ['$scope', '$state', 'auth',
+            function ($scope, $state, auth) {
 
         $scope.user = {};
 

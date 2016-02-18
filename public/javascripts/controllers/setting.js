@@ -3,12 +3,9 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('setting', [
-        '$scope',
-        '$state',
-        'auth',
-
-        function ($scope,$state, auth) {
+    app.controller('setting',
+        ['$scope', '$state', 'auth',
+            function ($scope,$state, auth) {
 
             $scope.logout = function(){
                 auth.logout();

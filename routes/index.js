@@ -6,11 +6,12 @@ var router = express.Router();
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var cyclingroutesSchema  = mongoose.model('CyclingRoutes');
 
 //var cyclingRoutes = mongoose.model('CyclingRoutes');
 
 var jwt = require('express-jwt');
-
+var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 //GET first page
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
@@ -57,23 +58,64 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 
-router.get('/test', function(req, res, next){
-    User.find({name:"Adrise"}).exec(function(err, users){
+//Getting routes from DB
+router.get('/showRoutes', function (req,res,next){
+
+    //using mongoose schema to run the search
+    var query = cyclingroutesSchema.find({});
+
+
+    query.exec(function(err, cyclingroutes) {
         if(err){
-            return next(err);
+            res.send(err);
+        }else{
+            res.json(cyclingroutes);
         }
-        res.json(users);
+
     });
+
 });
 
     //storing cycling routes POST
-router.post('/uploadroutes', function(req,res,next){
-    
+router.post('/uploadRoutes', auth, function(req,res){
+    //check if the body isnt empty
+    if(!req.body){
+        return res.status(400).json({message:"Empty file"});
+    }
+
+
+
+    //creating a route and putting the information from the req in the schema
+    var routes = new cyclingroutesSchema();
+    routes.createdBy = req.payload._id; //gets the current user id
+    routes.loccc = req.body.loccc;
+
+    //console.log(routes.location);
+    //console.log(req.body.location);
+    //res.json(req.body);
+    //req.body.location.coordinates
+    //
+    routes.save(function (err, route) {
+        if(err){
+            res.send(err);
+
+        }
+        res.json(route);
+    });
 });
 
 //The userPropery option specifies which property on req to put our payload
 //use the middleware we just defined to require authentication on specific routes
 //authenticate users whenever they try to write to our application
-var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
+
 
 module.exports = router;
+
+//router.get('/test', function(req, res, next){
+//    User.find({name:"Adrise"}).exec(function(err, users){
+//        if(err){
+//            return next(err);
+//        }
+//        res.json(users);
+//    });
+//});

@@ -13,6 +13,7 @@ var passport = require('passport');
 mongoose.connect('mongodb://localhost/cyclingblog');
 
 require('./models/users');
+require('./models/cyclingroutes');
 require('./config/passport');
 
 var routes = require('./routes/index');

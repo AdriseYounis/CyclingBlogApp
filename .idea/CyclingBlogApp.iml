@@ -16,5 +16,7 @@
     <orderEntry type="library" name="angular-google-maps" level="application" />
     <orderEntry type="library" name="angular-simple-logger" level="application" />
     <orderEntry type="library" name="ng-map" level="application" />
+    <orderEntry type="library" name="geo" level="application" />
+    <orderEntry type="library" name="jquery.geolocation" level="application" />
   </component>
 </module>

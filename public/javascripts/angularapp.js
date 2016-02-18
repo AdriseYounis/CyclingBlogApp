@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    angular.module('cyclingblog', ['ui.router', 'ngMap'])
+    angular.module('cyclingblog',
+        ['ui.router', 'ngMap'])
         .config([
         "$stateProvider",
         "$urlRouterProvider",
-
-        function($stateProvider,$urlRouterProvider){
+            function($stateProvider,$urlRouterProvider){
             $stateProvider
                 .state('preview',{
                     url:'/preview',
@@ -34,7 +34,7 @@
                     controller: "setting"
                 });
 
-                $urlRouterProvider.otherwise('registration');
+                $urlRouterProvider.otherwise('preview');
         }
     ])
 

@@ -7,7 +7,7 @@
 
         <li><a href=""><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span>About</a></li>
 
-        <li><a href=""><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-tachometer fa-stack-1x"></i></span>Dashboard</a></li>
+        <li><a href=""  ><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-tachometer fa-stack-1x"></i></span>Dashboard</a></li>
 
         <li><a href=""><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-comment fa-stack-1x"></i></span>Blogs</a></li>
 
@@ -39,44 +39,38 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Location</label>
-                            <input type="text" class="form-control" id="location" value="Birmingham" ng-model="" readonly>
+                            <input type="text" class="form-control" id="location" value="Birmingham" readonly>
                         </div>
 
                         <div class="form-group">
                             <label>Latitude</label>
-                            <input type="text" class="form-control" id="latitude" value="39.500" ng-model="formData.latitude" readonly>
+                            <input type="text" class="form-control" id="latitude" value="52.483" readonly>
                         </div>
                         <div class="form-group">
                             <label>Longitude</label>
-                            <input type="text" class="form-control" id="longitude" value="-98.350" ng-model="formData.longitude" readonly>
+                            <input type="text" class="form-control" id="longitude" value="1.893" readonly>
                         </div>
                         <button type="submit" class="btn btn-success" onclick="AddBlog()">
                             <span class="fa fa-comment"></span> Blog
                         </button>
 
-
-                        <input type="button" class="btn btn-info" id="showFileUpload" value="Upload Routes">
-
-                        <br/>
-                        <br/>
+                        <input type="button" class="btn btn-info" id="showFileUpload" value="Upload Routes"><br/><br/>
                         <div class="route-upload">
                             <label>Upload Cycling Routes</label>
 
-                            <input type="file" accept=".xml" id="file" ng-disabled="true" />
-                            <br/>
+                            <input type="file" accept=".xml,.kmz,.gpx" id="file" /><br/>
 
                             <label>File Progress</label>
                             <div id="progress" class="progress">
                                 <div class="progress-bar progress-bar-success "></div>
                             </div>
 
-                            <button type="button" class="btn btn-primary btn-s" id="btnuploadremove" disabled>
+                            <button type="button" class="btn btn-primary btn-s" ng-click="GetFile()" id="btnuploadremove">
                                 <span class="glyphicon glyphicon-upload"></span> Upload
                             </button>
-                            <button type="button" class="btn btn-danger btn-s" id="btnuploadremove1" disabled>
+                            <button type="button" class="btn btn-danger btn-s" ng-click="Remove()" id="btnuploadremove1">
                                 <span class="glyphicon glyphicon-trash"></span> Remove
-                            </button>
-                            <br/>
+                            </button><br/>
                         </div>
                 </div>
             </div>
