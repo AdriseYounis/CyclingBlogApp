@@ -11,7 +11,7 @@ var passport = require('passport');
 
 //connecting to the database cyclingblog
 mongoose.connect('mongodb://localhost/cyclingblog');
-
+//mongoose.connect('mongodb://localhost/adries');
 require('./models/users');
 require('./models/cyclingroutes');
 require('./config/passport');

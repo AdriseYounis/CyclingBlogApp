@@ -88,7 +88,7 @@ router.post('/uploadRoutes', auth, function(req,res){
     //creating a route and putting the information from the req in the schema
     var routes = new cyclingroutesSchema();
     routes.createdBy = req.payload._id; //gets the current user id
-    routes.loccc = req.body.loccc;
+    routes.geom = req.body.geom;
 
     //console.log(routes.location);
     //console.log(req.body.location);
@@ -97,6 +97,7 @@ router.post('/uploadRoutes', auth, function(req,res){
     //
     routes.save(function (err, route) {
         if(err){
+            console.log(err);
             res.send(err);
 
         }
