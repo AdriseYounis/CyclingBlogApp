@@ -26,9 +26,15 @@
         </header>
         <div class="cd-content">
             <form>
-                <ng-map id="map" default-style="false" center="current-location" zoom="12">
-                    <marker position="current" animation="Animation.BOUNCE" centered="true"></marker>
-                </ng-map>
+                <div class="map-wrap">
+                    <ng-map zoom="12" default-style="false" on-click="logLatLng()" >
+                        <directions
+                                waypoints="{{wayPoints}}"
+                                origin="{{origin}}"
+                                destination="{{destination}}">
+                        </directions>
+                    </ng-map>
+                </div>
 
                 <div class="panel panel-default show-routeinfo">
 

@@ -82,19 +82,13 @@ router.post('/uploadRoutes', auth, function(req,res){
     if(!req.body){
         return res.status(400).json({message:"Empty file"});
     }
-
-
-
     //creating a route and putting the information from the req in the schema
     var routes = new cyclingroutesSchema();
     routes.createdBy = req.payload._id; //gets the current user id
-    routes.geom = req.body.geom;
+    routes.geom.coordinates = req.body.routesArray1;
 
-    //console.log(routes.location);
-    //console.log(req.body.location);
-    //res.json(req.body);
-    //req.body.location.coordinates
-    //
+    console.log(req.body.routesArray1);
+
     routes.save(function (err, route) {
         if(err){
             console.log(err);

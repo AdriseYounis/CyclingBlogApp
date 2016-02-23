@@ -6,30 +6,33 @@ var mongoose = require('mongoose');
 
 var CyclingRoutesSchema = new mongoose.Schema({
 
-
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 
+    geom: {
+        type: {
+            type: String,
+            required: true,
+            enum: [
+                'Point',
+                'LineString',
+                'Polygon',
+                'MultiPoint'
+            ],
+            default:"LineString"
+        },
+        coordinates: {type: [mongoose.Schema.Types.Mixed]}
 
-    //geom:[{type:{type:String}, coordinates:[]}]
-    geom : { type: [mongoose.Schema.Types.Mixed], index: { type: '2dsphere', sparse: true }}
-
-    //abc: {
-    //    type: {
-    //        type: String,
-    //        required: true,
-    //        enum: [
-    //            'Point',
-    //            'LineString',
-    //            'Polygon',
-    //            'MultiPoint'
-    //        ],
-    //        default:"Point"
-    //    },
-    //    geo: {type: [mongoose.Schema.Types.Mixed]}
-    //
-    //}
+    }
 
 });
+
+CyclingRoutesSchema.index({"geom": "2dsphere", sparse: true});
+mongoose.model('CyclingRoutes', CyclingRoutesSchema);
+
+
+//geom:[{type:{type:String}, coordinates:[]}]
+//geom : { type: [mongoose.Schema.Types.Mixed], index: { type: '2dsphere', sparse: true }}
+
 
 //    loc: {
 //        type:{
@@ -46,8 +49,6 @@ var CyclingRoutesSchema = new mongoose.Schema({
 //        coordinates: {type: [mongoose.Schema.Types.Mixed],index: {type: '2dsphere', sparse: true}}
 //    }
 //});
-CyclingRoutesSchema.index({"geom": "2dsphere", sparse: true});
-mongoose.model('CyclingRoutes', CyclingRoutesSchema);
 
     //Adrise Younis
     //createdBy: {type: mongoose.Schema.Types.ObjectId, ref:'User'},

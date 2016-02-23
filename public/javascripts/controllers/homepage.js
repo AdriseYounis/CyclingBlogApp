@@ -46,25 +46,22 @@
 
                     reader.onloadend = function (theFile) {
                         var fileData = theFile.target.result;
-                        $scope.data = fileData;
-
                         var parser = new DOMParser();
                         var doc = parser.parseFromString(fileData, "application/xml");
 
-                        var xmlname = doc.getElementsByTagName('name')[0].textContent;
+                        //var xmlname = doc.getElementsByTagName('name')[0].textContent;
                         var trkpt = doc.getElementsByTagName('trkpt');
                         var time = doc.getElementsByTagName("time");
 
-                        for(var i = 0; i< 5; i++){
+                        for(var i = 0; i< trkpt.length; i++){
                             var lat = trkpt[i].getAttribute('lat');
                             var lon = trkpt[i].getAttribute('lon');
                             var t = time[i].textContent;
                             routesArray1.push([lon, lat]);
                             console.log(routesArray1);
                             //console.log(i + "  lat:  " + lat + "  lon: " + lon + "  time: " + t);
-                        }    //console.log("xmlname:  " + xmlname);
+                        }   //console.log("xmlname:  " + xmlname);
 
-                        console.log("Routes Array 2 " + routesArray1);
 
                         $http.post('/uploadRoutes', {routesArray1: routesArray1},
                             {headers: {Authorization:'Bearer '+ auth.getToken()}}) //only logged users upload routes
@@ -74,7 +71,6 @@
                             .error(function(data){
                                 console.log('error:'+ data);
                             });
-                        console.log("Routes Array 3 " + routesArray1);
 
                         var progress = parseInt(theFile.loaded / theFile.total * 100, 10);
                         $('#progress .progress-bar').css(
@@ -86,6 +82,19 @@
                     reader.readAsText(file);
                 }
             };
+
+                $scope.logLatLng = function(e){
+                    console.log('loc', e.latLng);
+                };
+
+                $scope.wayPoints = [
+                    //{location: {lat:44.32384807250689, lng: -78.079833984375}, stopover: true},
+                    // {location: {lat:44.55916341529184, lng: -76.17919921875}, stopover: true},
+                ];
+
+                $scope.origin = "52.479090,-1.892470";
+                $scope.destination = "52.508408,-1.885373";
+
 
     }]);
 
