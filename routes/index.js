@@ -64,7 +64,6 @@ router.get('/showRoutes', function (req,res,next){
     //using mongoose schema to run the search
     var query = cyclingroutesSchema.find({});
 
-
     query.exec(function(err, cyclingroutes) {
         if(err){
             res.send(err);
@@ -86,8 +85,6 @@ router.post('/uploadRoutes', auth, function(req,res){
     var routes = new cyclingroutesSchema();
     routes.createdBy = req.payload._id; //gets the current user id
     routes.geom.coordinates = req.body.routesArray1;
-
-    console.log(req.body.routesArray1);
 
     routes.save(function (err, route) {
         if(err){

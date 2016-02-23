@@ -4,8 +4,10 @@
     var app = angular.module('cyclingblog');
 
     app.controller('homepage',
-        ['$scope', '$state', 'auth','$window','$http',
-            function ($scope,$state, auth, $window, $http) {
+        ['$scope', '$state', 'auth','$window','mapdatafactory',
+            function ($scope,$state, auth, $window, mapdatafactory) {
+
+                $scope.wayPoints = [];
 
         //logout function
             $scope.logout = function(){
@@ -35,7 +37,7 @@
 
             $scope.GetFile = function() {
 
-                var routesArray1 = [];
+                var routesArray = [];
                 var file = document.getElementById('file').files[0];
 
                 if (!file) {
@@ -49,7 +51,6 @@
                         var parser = new DOMParser();
                         var doc = parser.parseFromString(fileData, "application/xml");
 
-                        //var xmlname = doc.getElementsByTagName('name')[0].textContent;
                         var trkpt = doc.getElementsByTagName('trkpt');
                         var time = doc.getElementsByTagName("time");
 
@@ -57,43 +58,75 @@
                             var lat = trkpt[i].getAttribute('lat');
                             var lon = trkpt[i].getAttribute('lon');
                             var t = time[i].textContent;
-                            routesArray1.push([lon, lat]);
-                            console.log(routesArray1);
-                            //console.log(i + "  lat:  " + lat + "  lon: " + lon + "  time: " + t);
-                        }   //console.log("xmlname:  " + xmlname);
+                            routesArray.push([lon, lat]);
+                        }
 
+                        mapdatafactory.uploadRoutes(routesArray).then(function(data){
 
-                        $http.post('/uploadRoutes', {routesArray1: routesArray1},
-                            {headers: {Authorization:'Bearer '+ auth.getToken()}}) //only logged users upload routes
-                            .success(function(data){
+                            var coordinates = data.geom.coordinates;
 
-                            })
-                            .error(function(data){
-                                console.log('error:'+ data);
-                            });
+                            var lat = parseFloat(coordinates[10][1]);
+                            var lng = parseFloat(coordinates[10][0]);
 
-                        var progress = parseInt(theFile.loaded / theFile.total * 100, 10);
-                        $('#progress .progress-bar').css(
-                            'width',
-                            progress + '%'
-                        );
+                            var ll = new google.maps.LatLng(lat,lng);
+
+                            $scope.wayPoints =[
+                                {location:{
+                                    lat:ll.lat(),
+                                    lng: ll.lng()},
+                                    stopover:true
+                                }];
+
+                            //$scope.wayPoints =[
+                            //    {location:{
+                            //        lat:parseFloat(coordinates[10][1]),
+                            //        lng:parseFloat(coordinates[10][0])},
+                            //        stopover:true
+                            //    }];
+
+                            //console.log($scope.wayPoints);
+                            //
+                            //
+                            //
+                            $scope.origin = coordinates[0][1] + "," + coordinates[0][0];
+                            //
+                            $scope.destination = coordinates[coordinates.length -1][1] + "," + coordinates[coordinates.length -1][0];
+
+                            //coordinates.splice(0,1);
+                            //coordinates.pop();
+                            //
+                            //$scope.wayPoints = coordinates.map(function(wayPoint){
+                            //
+                            //    return {location:{lat:parseInt(wayPoint[1]), lng: parseInt(wayPoint[0])},stopover:true};
+                            //
+                            //});
+
+                            var progress = parseInt(theFile.loaded / theFile.total * 100, 10);
+                            $('#progress .progress-bar').css(
+                                'width', progress + '%'
+                            );
+                        });
+
                     };
 
                     reader.readAsText(file);
                 }
             };
 
-                $scope.logLatLng = function(e){
-                    console.log('loc', e.latLng);
-                };
+                //$scope.logLatLng = function(e){
+                //   console.log('loc', e.latLng);
+                //};
+                //
+                //$scope.wayPoints = [
+                //    {location: {lat:52.471000, lng: -1.892350}, stopover: true},
+                //     {location: {lat:52.508411, lng: -1.885073}, stopover: true}
+                //];
+                //
+                //console.log($scope.wayPoints);
+                //
+                //$scope.origin = "52.479090,-1.892470";
+                //$scope.destination = "52.508408,-1.885373";
 
-                $scope.wayPoints = [
-                    //{location: {lat:44.32384807250689, lng: -78.079833984375}, stopover: true},
-                    // {location: {lat:44.55916341529184, lng: -76.17919921875}, stopover: true},
-                ];
-
-                $scope.origin = "52.479090,-1.892470";
-                $scope.destination = "52.508408,-1.885373";
 
 
     }]);

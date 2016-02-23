@@ -27,7 +27,7 @@
         <div class="cd-content">
             <form>
                 <div class="map-wrap">
-                    <ng-map zoom="12" default-style="false" on-click="logLatLng()" >
+                    <ng-map zoom="12" center="current-location" default-style="false" on-click="logLatLng()" >
                         <directions
                                 waypoints="{{wayPoints}}"
                                 origin="{{origin}}"
