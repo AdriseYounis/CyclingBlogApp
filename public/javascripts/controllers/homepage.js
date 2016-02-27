@@ -3,20 +3,18 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('homepage',
-        ['$scope', '$state', 'auth','$window','mapdatafactory',
-            function ($scope,$state, auth, $window, mapdatafactory) {
+    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval',
+            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval) {
 
-                $scope.wayPoints = [];
+                $scope.markers = [];
 
-        //logout function
             $scope.logout = function(){
                 auth.logout();
                 $state.go('preview');
             };
 
             $scope.userName = auth.currentUser();
-                //console.log($scope.userName);     console.log(auth.currentUser());
+                $scope.mapCenter  = "current-location";
 
             $(".route-upload").hide();
 
@@ -52,54 +50,48 @@
                         var doc = parser.parseFromString(fileData, "application/xml");
 
                         var trkpt = doc.getElementsByTagName('trkpt');
-                        var time = doc.getElementsByTagName("time");
 
                         for(var i = 0; i< trkpt.length; i++){
                             var lat = trkpt[i].getAttribute('lat');
                             var lon = trkpt[i].getAttribute('lon');
-                            var t = time[i].textContent;
-                            routesArray.push([lon, lat]);
+                            routesArray.push([parseFloat(lat), parseFloat(lon)]);
                         }
 
                         mapdatafactory.uploadRoutes(routesArray).then(function(data){
 
-                            var coordinates = data.geom.coordinates;
+                            var coordinates = data.geom.coordinates.map(function(coor){
 
-                            var lat = parseFloat(coordinates[10][1]);
-                            var lng = parseFloat(coordinates[10][0]);
+                                var latlon = new google.maps.LatLng(coor[0],coor[1]);
 
-                            var ll = new google.maps.LatLng(lat,lng);
+                                return latlon;
+                            });
 
-                            $scope.wayPoints =[
-                                {location:{
-                                    lat:ll.lat(),
-                                    lng: ll.lng()},
-                                    stopover:true
-                                }];
+                            $scope.points = coordinates;
+                            $scope.mapCenter = coordinates[0];
 
-                            //$scope.wayPoints =[
-                            //    {location:{
-                            //        lat:parseFloat(coordinates[10][1]),
-                            //        lng:parseFloat(coordinates[10][0])},
-                            //        stopover:true
-                            //    }];
+                            NgMap.getMap().then(function(map) {
+                                var count = 0;
+                                var line = map.shapes.foo;
+                                $interval(function() {
+                                    count = (count + 1) % 200;
+                                    var icons = line.get('icons');
+                                    icons[0].offset = (count / 2) + '%';
+                                    line.set('icons', icons);
+                                }, 20);
+                            });
 
-                            //console.log($scope.wayPoints);
-                            //
-                            //
-                            //
-                            $scope.origin = coordinates[0][1] + "," + coordinates[0][0];
-                            //
-                            $scope.destination = coordinates[coordinates.length -1][1] + "," + coordinates[coordinates.length -1][0];
 
-                            //coordinates.splice(0,1);
-                            //coordinates.pop();
-                            //
-                            //$scope.wayPoints = coordinates.map(function(wayPoint){
-                            //
-                            //    return {location:{lat:parseInt(wayPoint[1]), lng: parseInt(wayPoint[0])},stopover:true};
-                            //
-                            //});
+
+
+                            for(var i = 0; i < coordinates.length; i=Math.floor(i+coordinates.length/7)){
+                                console.log(i);
+                                var marker = [];
+                                marker.push(coordinates[i].lat());
+                                marker.push(coordinates[i].lng());
+
+                                $scope.markers.push(marker);
+                            }
+                            console.log($scope.markers);
 
                             var progress = parseInt(theFile.loaded / theFile.total * 100, 10);
                             $('#progress .progress-bar').css(
@@ -112,22 +104,6 @@
                     reader.readAsText(file);
                 }
             };
-
-                //$scope.logLatLng = function(e){
-                //   console.log('loc', e.latLng);
-                //};
-                //
-                //$scope.wayPoints = [
-                //    {location: {lat:52.471000, lng: -1.892350}, stopover: true},
-                //     {location: {lat:52.508411, lng: -1.885073}, stopover: true}
-                //];
-                //
-                //console.log($scope.wayPoints);
-                //
-                //$scope.origin = "52.479090,-1.892470";
-                //$scope.destination = "52.508408,-1.885373";
-
-
 
     }]);
 

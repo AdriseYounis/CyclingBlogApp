@@ -27,12 +27,23 @@
         <div class="cd-content">
             <form>
                 <div class="map-wrap">
-                    <ng-map zoom="12" center="current-location" default-style="false" on-click="logLatLng()" >
-                        <directions
-                                waypoints="{{wayPoints}}"
-                                origin="{{origin}}"
-                                destination="{{destination}}">
-                        </directions>
+                    <ng-map zoom="12" center={{mapCenter}}>
+                        <shape name="polyline" id="foo"
+                               icons="[{
+                                    icon: {
+                                            path: 'CIRCLE',
+                                            scale: 10,
+                                            strokeColor: '#393'
+                                            },
+                                                offset: '100%'
+                                    }]"
+                               path="{{points}}"
+                               geodesic="true"
+                               stroke-color="#FF0000"
+                               stroke-opacity="1.0"
+                               stroke-weight="3">
+                        </shape>
+                        <marker ng-repeat="marker in markers" position="{{marker}}"></marker>
                     </ng-map>
                 </div>
 
