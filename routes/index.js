@@ -75,8 +75,9 @@ router.get('/showRoutes', function (req,res,next){
 
 });
 
-    //storing cycling routes POST
+    //storing the cycling routes
 router.post('/uploadRoutes', auth, function(req,res){
+
     //check if the body isnt empty
     if(!req.body){
         return res.status(400).json({message:"Empty file"});
@@ -96,18 +97,4 @@ router.post('/uploadRoutes', auth, function(req,res){
     });
 });
 
-//The userPropery option specifies which property on req to put our payload
-//use the middleware we just defined to require authentication on specific routes
-//authenticate users whenever they try to write to our application
-
-
 module.exports = router;
-
-//router.get('/test', function(req, res, next){
-//    User.find({name:"Adrise"}).exec(function(err, users){
-//        if(err){
-//            return next(err);
-//        }
-//        res.json(users);
-//    });
-//});

@@ -23,7 +23,6 @@ var CyclingRoutesSchema = new mongoose.Schema({
         coordinates: {type: [mongoose.Schema.Types.Mixed]}
 
     }
-
 });
 
 CyclingRoutesSchema.index({"geom": "2dsphere", sparse: true});

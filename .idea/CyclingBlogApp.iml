@@ -18,5 +18,8 @@
     <orderEntry type="library" name="ng-map" level="application" />
     <orderEntry type="library" name="geo" level="application" />
     <orderEntry type="library" name="jquery.geolocation" level="application" />
+    <orderEntry type="library" name="jszip" level="application" />
+    <orderEntry type="library" name="DBSCAN" level="application" />
+    <orderEntry type="library" name="markerclusterer" level="application" />
   </component>
 </module>
