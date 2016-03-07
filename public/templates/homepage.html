@@ -25,7 +25,7 @@
             </div>
         </header>
         <div class="cd-content">
-            <form>
+            <form class="homepage-map-form">
                 <div class="map-wrap">
                     <ng-map zoom="12" center={{mapCenter}}>
                         <shape name="polyline" id="foo"
@@ -46,52 +46,55 @@
                         <!--<marker ng-repeat="marker in markers" position="{{marker}}"></marker>-->
                     </ng-map>
                 </div>
-
+            </form>
                 <div class="panel panel-default show-routeinfo">
 
                     <div class="panel-heading">
-                        <h2 class="panel-title text-center">Selected Route Information<span class="glyphicon glyphicon-map-marker"></span></h2>
+                        <h2 class="panel-title text-center">Cycling Routes<span class=" glyphicon glyphicon-map-marker"></span></h2>
                     </div>
 
                     <div class="panel-body">
-                        <div class="form-group">
-                            <label>Location</label>
-                            <input type="text" class="form-control" id="location" value="Birmingham" readonly>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Latitude</label>
-                            <input type="text" class="form-control" id="latitude" value="52.483" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Longitude</label>
-                            <input type="text" class="form-control" id="longitude" value="1.893" readonly>
-                        </div>
-                        <button type="submit" class="btn btn-success" onclick="AddBlog()">
-                            <span class="fa fa-comment"></span> Blog
-                        </button>
-
-                        <input type="button" class="btn btn-info" id="showFileUpload" value="Upload Routes"><br/><br/>
                         <div class="route-upload">
-                            <label>Upload Cycling Routes</label>
+                            <form>
+                                <label>Upload Cycling Routes</label>
 
-                            <input type="file" accept=".xml,.kmz,.gpx" id="file" /><br/>
+                                <input type="file" accept=".xml,.kmz,.gpx" id="file" /><br/>
 
-                            <label>File Progress</label>
-                            <div id="progress" class="progress">
-                                <div class="progress-bar progress-bar-success "></div>
+                                <label>File Progress</label>
+                                <div id="progress" class="progress">
+                                    <div class="progress-bar progress-bar-success "></div>
+                                </div>
+                             <div class="file-upload-btns">
+                                <button type="button" class="btn btn-primary btn-s" ng-click="GetFile()">
+                                    <span class="glyphicon glyphicon-upload"></span> Upload
+                                </button>
+
+                                <button type="button" class="btn btn-warning btn-s" ng-click="ResetUpload()">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span> Cancel
+                                </button>
+                             </div>
+                            </form>
+                        </div>
+
+
+                            <div class="route-list-container">
+                                <h4>Route History</h4>
+                            <div class="success-filedetails" ng-repeat="route in routes">
+                                <p class="name">{{route.routename}}</p>
+                                <button type="button" class="btn btn-info btn-s" ng-click="displayRoute(route._id)">
+                                    <span class="fa fa-eye"></span> Display
+                                </button><br/>
+
+                                <button type="submit" class="btn btn-success btn-s" onclick="AddBlog()">
+                                <span class="fa fa-comment"></span> Blog
+                                </button>
+
                             </div>
-
-                            <button type="button" class="btn btn-primary btn-s" ng-click="GetFile()" id="btnuploadremove">
-                                <span class="glyphicon glyphicon-upload"></span> Upload
-                            </button>
-                            <button type="button" class="btn btn-danger btn-s" ng-click="Remove()" id="btnuploadremove1">
-                                <span class="glyphicon glyphicon-trash"></span> Remove
-                            </button><br/>
                         </div>
                 </div>
             </div>
-        </form>
+
         </div>
     </section>
 </main>

@@ -25,6 +25,13 @@
                     controller: "homepage",
                     onEnter:function(){
                         $('#loginModel').modal("toggle");
+                    },
+                    //loaded first in the state before everything else
+                    resolve:{
+                        routes:['mapdatafactory',function(mapdatafactory){
+                            return mapdatafactory.getRoutes();
+
+                        }]
                     }
                 })
 

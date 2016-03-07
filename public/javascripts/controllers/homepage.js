@@ -3,12 +3,75 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval',
-            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval) {
+    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes',
+            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes) {
 
                 $scope.markers = [];
                 $scope.mapCenter  = "current-location";
                 $scope.dynMarkers = [];
+                $scope.routes = routes;
+                console.log($scope.routes);
+
+                console.log($scope.routes[0]);
+
+                $scope.displayRoute = function(_id){
+
+                    mapdatafactory.getCoordinates(_id)
+                        .then(function(data){
+                            console.log(data);
+
+                    //loop through to the data that has been uploaded and return it
+                    var coordinates1 = data.geom.coordinates.map(function(coor){
+
+                        //get the latlon
+                        var latlon = new google.maps.LatLng(coor[0],coor[1]);
+
+                        return latlon;
+
+                    });
+                        //assign the latlon values to points which is the path of the route
+                        $scope.points = coordinates1;
+                        //set the position of the map
+                        $scope.mapCenter = coordinates1[1];
+
+                        //animate the dot to go around the route
+                        NgMap.getMap().then(function(map) {
+                            var count = 0;
+                            var line = map.shapes.foo;
+                            $interval(function() {
+                                count = (count + 1) % 200;
+                                var icons = line.get('icons');
+                                icons[0].offset = (count / 2) + '%';
+                                line.set('icons', icons);
+                            }, 100);
+
+
+                            for (var i = 0; i < coordinates1.length; i++) {
+                                var marker = new google.maps.Marker({position: coordinates1[i]});
+                                $scope.dynMarkers.push(marker);
+                            }
+
+                            $scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {});
+
+                        });
+                    });
+                };
+
+                $(".file-upload-btns").hide();
+
+                $('input[type=file]').change(function(){
+
+                    if($("#file").val()) {
+
+                        $(".file-upload-btns").show();
+                    }
+                });
+
+                $scope.ResetUpload = function(){
+                   //reset the file upload
+                    // clear the map
+                    //file progress is set to 0;
+                };
 
                 //logs users out and returns them to the homepage
                 $scope.logout = function(){
@@ -18,23 +81,6 @@
 
                 //assigns username to the scope
                 $scope.userName = auth.currentUser();
-
-                $(".route-upload").hide();
-
-                $('#file').change(function(evt) {
-                    $("#btnuploadremove").removeAttr("disabled");
-                    $("#btnuploadremove1").removeAttr("disabled");
-                });
-
-                function AddBlog() {
-
-                    window.location = "/addblog.html";
-                }
-
-                $( "#showFileUpload" ).click(function() {
-                    $(this).attr("disabled", "disabled");
-                    $(".route-upload").show();
-                });
 
                 //files types
                 const FileType = {
@@ -110,8 +156,21 @@
                                 routesArray.push([parseFloat(lat), parseFloat(lon)]);
                             }
 
+                            var route = {
+                                routesArray: routesArray,
+                                routeName: file.name
+                            };
+
+
                             //send the array of at and long values to the uploadroutes factory
-                            mapdatafactory.uploadRoutes(routesArray).then(function(data){
+                            mapdatafactory.uploadRoutes(route)
+                                .then(function(data){
+
+                                    routes.push({
+                                        _id:data._id,
+                                        routename: data.routename
+                                    });
+
 
                                 //loop through to the data that has been uploaded and return it
                                 var coordinates = data.geom.coordinates.map(function(coor){
@@ -123,60 +182,13 @@
 
                                 });
 
-
-
-                                //
-                                //var dbscan = new DBSCAN();
-                                //var dataset = coordinates;
-                                //console.log("dataset " + dataset);
-                                //
-                                //console.log("dbscan " + dbscan.run(dataset, 5, 2));
-
-                                //var dataset =  [[1,1],[0,1],[1,0],
-                                //    [10,10],[10,13],[13,13],
-                                //    [54,54],[55,55],[89,89],[57,55]];
-                                //
-                                //var kmeans = new KMEANS();
-                                //var clusters = kmeans.run(dataset, dataset.length);
-                                //console.log(clusters);
-
-
-                                //get the zoom level
-                                //check if the zoom level equals to 12
-                                //get the routers array
-                                //get the first and last and centre coordinates
-                                //cluster the routes
-
                                 //assign the latlon values to points which is the path of the route
                                  $scope.points = coordinates;
                                 //set the position of the map
                                 $scope.mapCenter = coordinates[1];
 
-                                //animate the dot to go around the route
+                                //animate the circle to go around the line
                                 NgMap.getMap().then(function(map) {
-
-                                    //var count = 0;
-                                    //var line = map.shapes.foo;
-                                    //$interval(function() {
-                                    //    count = (count + 1) % 200;
-                                    //    var icons = line.get('icons');
-                                    //    icons[0].offset = (count / 2) + '%';
-                                    //    line.set('icons', icons);
-                                    //}, 100);
-                                    //
-                                    //for (var i = 0; i < coordinates.length; i++) {
-                                    //
-                                    //    var marker = [];
-                                    //    marker.push(coordinates[i].lat());
-                                    //    marker.push(coordinates[i].lng());
-                                    //
-                                    //    $scope.markers.push(marker);
-                                    //}
-                                    //
-                                    //$scope.markerClusterer = new MarkerClusterer(map, $scope.markers, {});
-                                    //
-                                    //console.log($scope.markerClusterer);
-
                                     var count = 0;
                                     var line = map.shapes.foo;
                                     $interval(function() {
@@ -188,9 +200,7 @@
 
 
                                     for (var i = 0; i < coordinates.length; i++) {
-                                        //var latLng = coordinates[i].lat(), coordinates[i].lng();
                                         var marker = new google.maps.Marker({position: coordinates[i]});
-                                        console.log(marker);
                                         $scope.dynMarkers.push(marker);
                                     }
 
@@ -199,32 +209,13 @@
                                 });
 
 
-
-                                //setting the markers of each point of the route
-                                //$scope.$on('mapInitialized', function(event, map) {
-                                //
-
-                                //
-                                //    for (var i = 0; i < coordinates.length; i++) {
-                                //
-                                //        var marker = [];
-                                //        marker.push(coordinates[i].lat());
-                                //        marker.push(coordinates[i].lng());
-                                //
-                                //        $scope.markers.push(marker);
-                                //    }
-                                //
-                                //    $scope.markerClusterer = new MarkerClusterer(map, $scope.markers, {});
-                                //
-                                //    console.log($scope.markerClusterer);
-                                //});
-
                                 var progress = parseInt(theFile.loaded / theFile.total * 100, 10);
+
                                 $('#progress .progress-bar').css(
                                     'width', progress + '%'
                                 );
-                            });
 
+                            });
                         };
 
                         //checking the filetype
@@ -239,6 +230,7 @@
 
                     }
                 };
+
     }]);
 
 }());

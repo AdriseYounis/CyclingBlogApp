@@ -62,7 +62,8 @@ router.post('/login', function(req, res, next){
 router.get('/showRoutes', function (req,res,next){
 
     //using mongoose schema to run the search
-    var query = cyclingroutesSchema.find({});
+    var query = cyclingroutesSchema.find({})
+        .select("_id routename");
 
     query.exec(function(err, cyclingroutes) {
         if(err){
@@ -75,6 +76,21 @@ router.get('/showRoutes', function (req,res,next){
 
 });
 
+
+router.get('/routes/:id', function(req,res){
+    var id = req.params.id;
+
+    var query = cyclingroutesSchema.findById(id);
+
+    query.exec(function(err, route) {
+        if(err){
+            res.send(err);
+        }else{
+            res.json(route);
+        }
+    });
+});
+
     //storing the cycling routes
 router.post('/uploadRoutes', auth, function(req,res){
 
@@ -85,7 +101,8 @@ router.post('/uploadRoutes', auth, function(req,res){
     //creating a route and putting the information from the req in the schema
     var routes = new cyclingroutesSchema();
     routes.createdBy = req.payload._id; //gets the current user id
-    routes.geom.coordinates = req.body.routesArray1;
+    routes.geom.coordinates = req.body.route.routesArray;
+    routes.routename = req.body.route.routeName;
 
     routes.save(function (err, route) {
         if(err){

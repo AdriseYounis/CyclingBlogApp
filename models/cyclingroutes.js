@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var CyclingRoutesSchema = new mongoose.Schema({
 
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-
+    routename:{type:String},
     geom: {
         type: {
             type: String,
