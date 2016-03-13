@@ -1,0 +1,14 @@
+.ta-editor {
+    min-height: 300px !important;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+    margin:20px 0;
+    width: 99%;
+}
+
+.post-btn{
+    float:right;
+    margin: 2%;
+}

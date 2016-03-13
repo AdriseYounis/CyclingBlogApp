@@ -3,63 +3,69 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes',
-            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes) {
+    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes','$location',
+            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, $location) {
 
                 $scope.markers = [];
                 $scope.mapCenter  = "current-location";
                 $scope.dynMarkers = [];
+                $scope.multiPoints = [];
                 $scope.routes = routes;
-                console.log($scope.routes);
+                //console.log($scope.routes);
+                //console.log($scope.routes[0]);
 
-                console.log($scope.routes[0]);
+                $scope.WriteBlog = function() {
+                    $location.path("post");
+                };
+
+
+                //$scope.selected = {};
+                //$scope.selectAllRoutes = function(){
+                //    console.log($scope.selected);
+                //    for (var i = 0; i < $scope.routes.length; i++) {
+                //        var item = $scope.routes[i];
+                //        console.log(item);
+                //        $scope.selected[item.id] = true;
+                //    }
+                //};
+
 
                 $scope.displayRoute = function(_id){
 
-                    mapdatafactory.getCoordinates(_id)
-                        .then(function(data){
-                            console.log(data);
+                        mapdatafactory.getCoordinates(_id)
+                            .then(function (data) {
 
-                    //loop through to the data that has been uploaded and return it
-                    var coordinates1 = data.geom.coordinates.map(function(coor){
+                                //loop through to the data that has been uploaded and return it
+                                var coordinates1 = data.geom.coordinates.map(function (coor) {
 
-                        //get the latlon
-                        var latlon = new google.maps.LatLng(coor[0],coor[1]);
+                                    //get the latlon
+                                    var latlon = new google.maps.LatLng(coor[0], coor[1]);
 
-                        return latlon;
+                                    return latlon;
 
-                    });
-                        //assign the latlon values to points which is the path of the route
-                        $scope.points = coordinates1;
-                        //set the position of the map
-                        $scope.mapCenter = coordinates1[1];
+                                });
+                                $scope.multiPoints.push(coordinates1);
+                                $scope.color = randomColor({hue: 'random', luminosity: 'random'});
+                                $scope.mapCenter = coordinates1[1];
 
-                        //animate the dot to go around the route
-                        NgMap.getMap().then(function(map) {
-                            var count = 0;
-                            var line = map.shapes.foo;
-                            $interval(function() {
-                                count = (count + 1) % 200;
-                                var icons = line.get('icons');
-                                icons[0].offset = (count / 2) + '%';
-                                line.set('icons', icons);
-                            }, 100);
+                                //animate the dot to go around the route
+                                NgMap.getMap().then(function (map) {
+                                    for (var i = 0; i < coordinates1.length; i++) {
+                                        var marker = new google.maps.Marker({position: coordinates1[i]});
+                                        $scope.dynMarkers.push(marker);
+                                    }
 
+                                    $scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {});
 
-                            for (var i = 0; i < coordinates1.length; i++) {
-                                var marker = new google.maps.Marker({position: coordinates1[i]});
-                                $scope.dynMarkers.push(marker);
-                            }
-
-                            $scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {});
-
-                        });
-                    });
+                                });
+                            });
                 };
 
                 $(".file-upload-btns").hide();
 
                 $('input[type=file]').change(function(){
+
+                    progressbarstatus(0);
 
                     if($("#file").val()) {
 
@@ -68,9 +74,11 @@
                 });
 
                 $scope.ResetUpload = function(){
-                   //reset the file upload
-                    // clear the map
-                    //file progress is set to 0;
+                    $scope.multiPoints = [];
+                    $scope.markerClusterer.clearMarkers();
+                    $("#file").val('').clone(true);
+                    progressbarstatus(0);
+                    $(".file-upload-btns").hide();
                 };
 
                 //logs users out and returns them to the homepage
@@ -162,7 +170,7 @@
                             };
 
 
-                            //send the array of at and long values to the uploadroutes factory
+                            //send the array of lat and long values to the uploadroutes factory
                             mapdatafactory.uploadRoutes(route)
                                 .then(function(data){
 
@@ -183,20 +191,20 @@
                                 });
 
                                 //assign the latlon values to points which is the path of the route
-                                 $scope.points = coordinates;
+                                 $scope.multiPoints.push(coordinates);
                                 //set the position of the map
                                 $scope.mapCenter = coordinates[1];
 
                                 //animate the circle to go around the line
                                 NgMap.getMap().then(function(map) {
-                                    var count = 0;
-                                    var line = map.shapes.foo;
-                                    $interval(function() {
-                                        count = (count + 1) % 200;
-                                        var icons = line.get('icons');
-                                        icons[0].offset = (count / 2) + '%';
-                                        line.set('icons', icons);
-                                    }, 100);
+                                    //var count = 0;
+                                    //var line = map.shapes.foo;
+                                    //$interval(function() {
+                                    //    count = (count + 1) % 200;
+                                    //    var icons = line.get('icons');
+                                    //    icons[0].offset = (count / 2) + '%';
+                                    //    line.set('icons', icons);
+                                    //}, 100);
 
 
                                     for (var i = 0; i < coordinates.length; i++) {
@@ -208,12 +216,7 @@
 
                                 });
 
-
-                                var progress = parseInt(theFile.loaded / theFile.total * 100, 10);
-
-                                $('#progress .progress-bar').css(
-                                    'width', progress + '%'
-                                );
+                                    progressbarstatus(100);
 
                             });
                         };
@@ -230,6 +233,13 @@
 
                     }
                 };
+
+                function progressbarstatus(status){
+
+                    $('#progress .progress-bar').css(
+                        'width', status + '%'
+                    );
+                }
 
     }]);
 

@@ -15,7 +15,8 @@ var userSchema = new mongoose.Schema({
     email:{type:String, lowercase:true, unique:true},
     name:{type:String},
     hash:String,
-    salt:String
+    salt:String,
+    routes:[{type: mongoose.Schema.Types.ObjectId, ref: 'CyclingRoutes'}]//linked with routes schema
 });
 
 //creating setPasswordMethod to set the password and secure it

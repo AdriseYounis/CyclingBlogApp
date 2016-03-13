@@ -1,48 +1,59 @@
 (function () {
     'use strict';
 
-    angular.module('cyclingblog',
-        ['ui.router', 'ngMap'])
+    angular.module('cyclingblog', ['ui.router', 'ngMap', 'textAngular'])
         .config([
         "$stateProvider",
         "$urlRouterProvider",
-            function($stateProvider,$urlRouterProvider){
-            $stateProvider
-                .state('preview',{
-                    url:'/preview',
-                    templateUrl: "templates/preview.html",
-                    controller: "registration",
-                    onEnter: ['$state', 'auth', function($state, auth){
-                        if(auth.isLoggedIn()){
-                            $state.go('homepage');
-                        }
-                    }]
-                })
+        "$provide",
+            function($stateProvider,$urlRouterProvider, $provide) {
 
-                .state('homepage',{
-                    url:'/homepage',
-                    templateUrl: "templates/homepage.html",
-                    controller: "homepage",
-                    onEnter:function(){
-                        $('#loginModel').modal("toggle");
-                    },
-                    //loaded first in the state before everything else
-                    resolve:{
-                        routes:['mapdatafactory',function(mapdatafactory){
-                            return mapdatafactory.getRoutes();
+                //$provide
+                //    .decorator('taOptions', ['$delegate', function(taOptions){
+                //
+                //    }]);
 
+                $stateProvider
+                    .state('preview', {
+                        url: '/preview',
+                        templateUrl: "templates/preview.html",
+                        controller: "registration",
+                        onEnter: ['$state', 'auth', function ($state, auth) {
+                            if (auth.isLoggedIn()) {
+                                $state.go('homepage');
+                            }
                         }]
-                    }
-                })
+                    })
+                    .state('homepage', {
+                        url: '/homepage',
+                        templateUrl: "templates/homepage.html",
+                        controller: "homepage",
+                        onEnter: function () {
+                            $('#loginModel').modal("toggle");
+                        },
+                        //loaded first in the state before everything else
+                        resolve: {
+                            routes: ['mapdatafactory', function (mapdatafactory) {
+                                return mapdatafactory.getRoutes();
 
-                .state('setting',{
-                    url:'/setting',
-                    templateUrl: "templates/setting.html",
-                    controller: "setting"
-                });
+                            }]
+                        }
+                    })
+                    .state('post', {
+                        url: '/post',
+                        templateUrl: "templates/post.html",
+                        controller: "postcontroller"
+                    })
+
+                    .state('setting', {
+                        url: '/setting',
+                        templateUrl: "templates/setting.html",
+                        controller: "setting"
+                    });
 
                 $urlRouterProvider.otherwise('preview');
-        }
+
+            }
     ])
 
     //auth factory

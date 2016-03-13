@@ -59,31 +59,34 @@ router.post('/login', function(req, res, next){
 });
 
 //Getting routes from DB
-router.get('/showRoutes', function (req,res,next){
+router.get('/showRoutes', auth , function (req,res,next){
 
-    //using mongoose schema to run the search
-    var query = cyclingroutesSchema.find({})
-        .select("_id routename");
+    console.log(req.payload._id);
+    //returns a user with all cycling routes data
+    User.findById(req.payload._id).populate("routes")
+        //cyclingroutesSchema.find({})
+        //    .select("_id routename");
 
-    query.exec(function(err, cyclingroutes) {
+    .exec(function(err, user) {
         if(err){
-            res.send(err);
-        }else{
-            res.json(cyclingroutes);
+            next(err);
         }
+        console.log(user);
+            res.json(user.routes);
 
     });
 
 });
 
 
-router.get('/routes/:id', function(req,res){
+router.get('/routes/:id', auth, function(req,res,next){
     var id = req.params.id;
 
     var query = cyclingroutesSchema.findById(id);
 
     query.exec(function(err, route) {
         if(err){
+            next(err);
             res.send(err);
         }else{
             res.json(route);
@@ -92,7 +95,7 @@ router.get('/routes/:id', function(req,res){
 });
 
     //storing the cycling routes
-router.post('/uploadRoutes', auth, function(req,res){
+router.post('/uploadRoutes', auth, function(req,res, next){
 
     //check if the body isnt empty
     if(!req.body){
@@ -106,11 +109,28 @@ router.post('/uploadRoutes', auth, function(req,res){
 
     routes.save(function (err, route) {
         if(err){
+            next(err);
             console.log(err);
             res.send(err);
 
         }
-        res.json(route);
+
+        //assosicating routes to user
+        User.findById(req.payload._id)  //getting id from token
+            .exec(function(err, user, next){
+                if(err){
+                    next(err);
+                    console.log(err);
+                }
+                user.routes.push(route._id);
+                user.save(function(err){
+                    if(err){
+                        next(err);
+                        console.log(err);
+                    }
+                    res.json(route);
+                });
+            });
     });
 });
 

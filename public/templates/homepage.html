@@ -28,7 +28,9 @@
             <form class="homepage-map-form">
                 <div class="map-wrap">
                     <ng-map zoom="12" center={{mapCenter}}>
-                        <shape name="polyline" id="foo"
+                        <shape ng-repeat="p in multiPoints"
+                               name="polyline"
+                               id="foo"
                                icons="[{
                                     icon: {
                                             path: 'CIRCLE',
@@ -37,9 +39,9 @@
                                             },
                                                 offset: '100%'
                                     }]"
-                               path="{{points}}"
+                               path="{{p}}"
                                geodesic="true"
-                               stroke-color="#6495ED"
+                               stroke-color={{color}}
                                stroke-opacity="1"
                                stroke-weight="5">
                         </shape>
@@ -79,19 +81,28 @@
 
 
                             <div class="route-list-container">
-                                <h4>Route History</h4>
-                            <div class="success-filedetails" ng-repeat="route in routes">
-                                <p class="name">{{route.routename}}</p>
-                                <button type="button" class="btn btn-info btn-s" ng-click="displayRoute(route._id)">
-                                    <span class="fa fa-eye"></span> Display
-                                </button><br/>
+                                    <h4>Route History</h4>
+                                <div class="success-filedetails" ng-repeat="route in routes">
 
-                                <button type="submit" class="btn btn-success btn-s" onclick="AddBlog()">
-                                <span class="fa fa-comment"></span> Blog
-                                </button>
+                                    <!--<input type="checkbox" ng-model="selected[route.id]">-->
+                                    <!--<input type="checkbox" ng-model="status.val" ng-click="displayRoute(route._id)">-->
 
-                            </div>
+                                    <p class="name">{{route.routename}}</p>
+
+                                    <button type="button" class="btn btn-info btn-sm" ng-click="displayRoute(route._id)">
+                                        <span class="fa fa-eye"></span> Display
+                                    </button><br/>
+
+                                    <button type="submit" class="btn btn-success btn-sm" ng-click="WriteBlog()">
+                                         <span class="fa fa-comment"></span> Blog
+                                    </button>
+                                </div>
                         </div>
+
+                        <br/>
+                        <button type="button" class="btn btn-info btn-sm" ng-model="selectedAll" ng-click="selectAllRoutes()">
+                            <span class="fa fa-eye"></span> Show All
+                        </button>
                 </div>
             </div>
 
