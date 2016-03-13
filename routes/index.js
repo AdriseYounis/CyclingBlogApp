@@ -8,8 +8,6 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var cyclingroutesSchema  = mongoose.model('CyclingRoutes');
 
-//var cyclingRoutes = mongoose.model('CyclingRoutes');
-
 var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 //GET first page
@@ -57,6 +55,8 @@ router.post('/login', function(req, res, next){
     }
   })(req, res, next);
 });
+module.exports = router;
+
 
 //Getting routes from DB
 router.get('/showRoutes', auth , function (req,res,next){
@@ -79,7 +79,7 @@ router.get('/showRoutes', auth , function (req,res,next){
 });
 
 
-router.get('/routes/:id', auth, function(req,res,next){
+router.get('/routes/:id', function(req,res,next){
     var id = req.params.id;
 
     var query = cyclingroutesSchema.findById(id);
@@ -133,5 +133,3 @@ router.post('/uploadRoutes', auth, function(req,res, next){
             });
     });
 });
-
-module.exports = router;

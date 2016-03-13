@@ -3,14 +3,27 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes','$location',
-            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, $location) {
+    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes','$location', 'clusterfactory',
+            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, $location, clusterfactory) {
 
                 $scope.markers = [];
                 $scope.mapCenter  = "current-location";
-                $scope.dynMarkers = [];
                 $scope.multiPoints = [];
                 $scope.routes = routes;
+                $scope.multiPoints = clusterfactory.processMultiRoutes(routes);
+                $scope.markers = clusterfactory.clusterMultipleRoutes($scope.multiPoints);
+
+                //NgMap.getMap().then(function(map) {
+                //    $scope.markerClusterer = new MarkerClusterer(map, $scope.markers, {});
+                //
+                //});
+
+
+
+                    //new MarkerClusterer(map, clusterfactory.clusterMultipleRoutes($scope.multiPoints)[0], {});
+
+
+
                 //console.log($scope.routes);
                 //console.log($scope.routes[0]);
 
@@ -32,32 +45,21 @@
 
                 $scope.displayRoute = function(_id){
 
-                        mapdatafactory.getCoordinates(_id)
+                        mapdatafactory.getSingleRoute(_id)
                             .then(function (data) {
 
-                                //loop through to the data that has been uploaded and return it
-                                var coordinates1 = data.geom.coordinates.map(function (coor) {
+                                 var LatLng = clusterfactory.processRouteData(data);
+                                 clusterfactory.clusterRoute(LatLng).then(function(clusterItems){
 
-                                    //get the latlon
-                                    var latlon = new google.maps.LatLng(coor[0], coor[1]);
+                                     $scope.multiPoints.push(LatLng);
+                                     $scope.color = randomColor({hue: 'random', luminosity: 'random'});
+                                     $scope.mapCenter = LatLng[1];
+                                     $scope.markerClusterer = clusterItems;
+                                 });
 
-                                    return latlon;
-
-                                });
-                                $scope.multiPoints.push(coordinates1);
-                                $scope.color = randomColor({hue: 'random', luminosity: 'random'});
-                                $scope.mapCenter = coordinates1[1];
-
-                                //animate the dot to go around the route
-                                NgMap.getMap().then(function (map) {
-                                    for (var i = 0; i < coordinates1.length; i++) {
-                                        var marker = new google.maps.Marker({position: coordinates1[i]});
-                                        $scope.dynMarkers.push(marker);
-                                    }
-
-                                    $scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {});
-
-                                });
+                            },
+                                function(err){
+                                console.log(err);
                             });
                 };
 

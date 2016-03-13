@@ -7,9 +7,7 @@
 
     var app = angular.module('cyclingblog');
 
-    app.factory('mapdatafactory', [
-        '$http',
-        'auth',
+    app.factory('mapdatafactory', ['$http', 'auth',
             function($http, auth){
 
                 var mapdata = {};
@@ -26,7 +24,7 @@
 
                 };
 
-                mapdata.getRoutes = function(){
+                mapdata.getAllRoutes = function(){
 
                     return $http.get('/showRoutes', {headers: {Authorization:'Bearer '+ auth.getToken()}})
                         .then(function(data){
@@ -34,20 +32,18 @@
                             },
                             function(data){
                             });
-
                 };
 
-                mapdata.getCoordinates = function (_id) {
+                mapdata.getSingleRoute = function (_id) {
                           return $http.get('/routes/'+_id, {headers: {Authorization:'Bearer '+ auth.getToken()}})
                               .then(function(data){
-                                      return data.data;
+
+                                  return data.data;
+
                                   },
                                   function(data){
+                                      console.log(data);
                                   });
-
-                };
-
-                var processRouteData = function(){
 
                 };
 

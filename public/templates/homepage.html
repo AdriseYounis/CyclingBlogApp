@@ -28,6 +28,7 @@
             <form class="homepage-map-form">
                 <div class="map-wrap">
                     <ng-map zoom="12" center={{mapCenter}}>
+
                         <shape ng-repeat="p in multiPoints"
                                name="polyline"
                                id="foo"
@@ -36,8 +37,7 @@
                                             path: 'CIRCLE',
                                             scale: 5,
                                             strokeColor: '#393'
-                                            },
-                                                offset: '100%'
+                                            }, offset: '100%'
                                     }]"
                                path="{{p}}"
                                geodesic="true"

@@ -33,8 +33,10 @@
                         },
                         //loaded first in the state before everything else
                         resolve: {
-                            routes: ['mapdatafactory', function (mapdatafactory) {
-                                return mapdatafactory.getRoutes();
+                            routes: ['mapdatafactory','clusterfactory', function (mapdatafactory, clusterfactory) {
+                                return mapdatafactory.getAllRoutes().then(function(data){
+                                        return data;
+                                });
 
                             }]
                         }
@@ -55,7 +57,6 @@
 
             }
     ])
-
     //auth factory
     .factory('auth',['$http', '$window', function($http, $window){
         var auth = {};
