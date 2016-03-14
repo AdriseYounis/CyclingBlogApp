@@ -6,42 +6,51 @@
     app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes','$location', 'clusterfactory',
             function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, $location, clusterfactory) {
 
-                $scope.markers = [];
                 $scope.mapCenter  = "current-location";
-                $scope.multiPoints = [];
-                $scope.routes = routes;
-                $scope.multiPoints = clusterfactory.processMultiRoutes(routes);
-                $scope.markers = clusterfactory.clusterMultipleRoutes($scope.multiPoints);
+                $scope.multipoints = clusterfactory.processMultiRoutes(routes);
 
-                //NgMap.getMap().then(function(map) {
-                //    $scope.markerClusterer = new MarkerClusterer(map, $scope.markers, {});
-                //
-                //});
+                //combine routes, multipoints, markers array of object
+
+                $scope.routeobjects = [];
+                var markers = [];
+                for(var i = 0; i < routes.length; i++){
+                    var points = clusterfactory.processRouteData(routes[i]);
+                    var markersArr= clusterfactory.createMarkers(points);
+                    $scope.routeobjects.push({route:routes[i],points:points,markers:markersArr,selected:true});
+                    markers.push(markersArr);
+                }
+
+                clusterfactory.clusterMultipleRoutes(markers).then(function (data) {
+                    $scope.markerClusterer = data;
+                });
+
+                $scope.selectingRoutes = function(index, points){
+                    if(!$scope.routeobjects[index].selected){
+                        $scope.markerClusterer.removeMarkers($scope.routeobjects[index].markers);
+                        var idx = -1;
+
+                        for(var i = 0; i<$scope.multipoints.length;i++){
+                            if(angular.equals(points,$scope.multipoints[i])){
+                                idx = i;
+                                break;
+                            };
+                        }
+                        console.log(idx);
 
 
+                        if(idx != -1){
+                            $scope.multipoints.splice(idx, 1);
+                        }
+                    }else{
 
-                    //new MarkerClusterer(map, clusterfactory.clusterMultipleRoutes($scope.multiPoints)[0], {});
-
-
-
-                //console.log($scope.routes);
-                //console.log($scope.routes[0]);
+                        $scope.multipoints.push(points);
+                        $scope.markerClusterer.addMarkers($scope.routeobjects[index].markers);
+                    }
+                };
 
                 $scope.WriteBlog = function() {
                     $location.path("post");
                 };
-
-
-                //$scope.selected = {};
-                //$scope.selectAllRoutes = function(){
-                //    console.log($scope.selected);
-                //    for (var i = 0; i < $scope.routes.length; i++) {
-                //        var item = $scope.routes[i];
-                //        console.log(item);
-                //        $scope.selected[item.id] = true;
-                //    }
-                //};
-
 
                 $scope.displayRoute = function(_id){
 
@@ -176,47 +185,20 @@
                             mapdatafactory.uploadRoutes(route)
                                 .then(function(data){
 
-                                    routes.push({
-                                        _id:data._id,
-                                        routename: data.routename
+                                    var LatLng = clusterfactory.processRouteData(data);
+
+                                    var markers = clusterfactory.createMarkers(LatLng);
+
+                                    $scope.mapCenter = LatLng[1];
+                                    $scope.markerClusterer.addMarkers(markers);
+                                    $scope.routeobjects.push({
+                                            route:data,
+                                            points:LatLng,
+                                            markers:markers,
+                                            selected:true
                                     });
+                                    $scope.multiPoints.push(LatLng);
 
-
-                                //loop through to the data that has been uploaded and return it
-                                var coordinates = data.geom.coordinates.map(function(coor){
-
-                                    //get the latlon
-                                    var latlon = new google.maps.LatLng(coor[0],coor[1]);
-
-                                    return latlon;
-
-                                });
-
-                                //assign the latlon values to points which is the path of the route
-                                 $scope.multiPoints.push(coordinates);
-                                //set the position of the map
-                                $scope.mapCenter = coordinates[1];
-
-                                //animate the circle to go around the line
-                                NgMap.getMap().then(function(map) {
-                                    //var count = 0;
-                                    //var line = map.shapes.foo;
-                                    //$interval(function() {
-                                    //    count = (count + 1) % 200;
-                                    //    var icons = line.get('icons');
-                                    //    icons[0].offset = (count / 2) + '%';
-                                    //    line.set('icons', icons);
-                                    //}, 100);
-
-
-                                    for (var i = 0; i < coordinates.length; i++) {
-                                        var marker = new google.maps.Marker({position: coordinates[i]});
-                                        $scope.dynMarkers.push(marker);
-                                    }
-
-                                    $scope.markerClusterer = new MarkerClusterer(map, $scope.dynMarkers, {});
-
-                                });
 
                                     progressbarstatus(100);
 

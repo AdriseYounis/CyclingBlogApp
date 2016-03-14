@@ -15,47 +15,40 @@
 
             //loop through to the data that has been uploaded and return it
             clusterData.processRouteData = function(data){
-
                 var coordinates = data.geom.coordinates.map(function (coor) {
-
                     var latlon = new google.maps.LatLng(coor[0], coor[1]); //get the lat//lon
                     return latlon;
-
                 });
 
 
                 return coordinates;
             };
 
-            //clustering routes
-            clusterData.clusterRoute = function (data) {
 
-                //return NgMap.getMap().then(function (map) {
+            //cluster a single route
+            clusterData.clusterMarkers = function (markers) {
+                return NgMap.getMap().then(function(map) {
+                    console.log("map ", markers);
+                    return new MarkerClusterer(map, markers, {});
+                });
+            };
 
-                    var markers = [];
-                    for (var i = 0; i < data.length; i++) {
-
-                        var marker = new google.maps.Marker({position: data[i]});
-                        markers.push(marker);
+            //cluster multiple routes
+            clusterData.clusterMultipleRoutes = function(multiMarkerArray){
+                return NgMap.getMap().then(function(map) {
+                    var flatMarkers = [];
+                    for (var i = 0; i < multiMarkerArray.length; i++) {
+                        Array.prototype.push.apply(flatMarkers, multiMarkerArray[i]);
                     }
+                    return new MarkerClusterer(map, flatMarkers, {});
+                });
+            };
 
-                    //var markercluster = new MarkerClusterer(map, markers, {});
-
-                    //return $q(function(resolve, reject){
-                    //    if(markers){
-                    //        resolve(markers);
-                    //    }
-                    //    else{
-                    //        reject("Failed");
-                    //    }
-                    //});
-
-                return markers;
-
-                //},function(err){
-                //    console.log(err);
-                //});
-
+            //creating an array of markers
+            clusterData.createMarkers = function (data) {
+                return data.map(function(item){
+                    return new google.maps.Marker({position: item});
+                });
             };
 
 
@@ -68,14 +61,12 @@
             };
 
 
-            clusterData.clusterMultipleRoutes = function(multiRouteData){
+            //creating array of markers for multi-routes
+            clusterData.createMultiMarkers = function(multiRouteData){
               return multiRouteData.map(function (route) {
-                    return clusterData.clusterRoute(route);
+                    return clusterData.createMarkers(route);
                 });
 
-                //return $q.all(promises).then(function(result){
-                //   return result;
-                //})
             };
 
 

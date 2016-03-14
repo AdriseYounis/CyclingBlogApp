@@ -79,6 +79,16 @@ router.get('/showRoutes', auth , function (req,res,next){
 });
 
 
+//
+//user.routes = [];
+//user.save(function(err){
+//    if(err){
+//        next(err);
+//    }
+//    res.json("dslk;xfk");
+//});
+
+
 router.get('/routes/:id', function(req,res,next){
     var id = req.params.id;
 

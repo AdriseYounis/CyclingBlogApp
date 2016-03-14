@@ -21,5 +21,6 @@
     <orderEntry type="library" name="jszip" level="application" />
     <orderEntry type="library" name="DBSCAN" level="application" />
     <orderEntry type="library" name="markerclusterer" level="application" />
+    <orderEntry type="library" name="markerclusterer_packed" level="application" />
   </component>
 </module>
