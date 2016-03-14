@@ -7,7 +7,7 @@
 
         <li><a href=""><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-info fa-stack-1x"></i></span>About</a></li>
 
-        <li><a href=""  ><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-tachometer fa-stack-1x"></i></span>Dashboard</a></li>
+        <li><a href=""><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-tachometer fa-stack-1x"></i></span>Dashboard</a></li>
 
         <li><a href=""><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-comment fa-stack-1x"></i></span>Blogs</a></li>
 
@@ -84,17 +84,14 @@
                                 <div class="success-filedetails" ng-repeat="r in routeobjects">
 
                                     <input type="checkbox" ng-model="r.selected" ng-click="selectingRoutes($index, r.points)">
-                                    <p class="name">{{r.route.routename}}</p>
 
-                                    <!--<button type="button" class="btn btn-info btn-sm" ng-click="displayRoute(route._id)">-->
-                                        <!--<span class="fa fa-eye"></span> Display-->
-                                    <!--</button><br/>-->
+                                    <p class="name">{{r.route.routename}}</p>
 
                                     <button type="submit" class="btn btn-success btn-sm" ng-click="WriteBlog()">
                                          <span class="fa fa-comment"></span> Blog
                                     </button>
 
-                                    <span class="fa fa-times fa-2x"></span>
+                                    <span ng-click="removeRoutes(r, $index)" class="fa fa-times fa-2x"></span>
 
 
                                 </div>

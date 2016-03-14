@@ -10,13 +10,17 @@
                 $scope.multipoints = clusterfactory.processMultiRoutes(routes);
 
                 //combine routes, multipoints, markers array of object
-
                 $scope.routeobjects = [];
                 var markers = [];
                 for(var i = 0; i < routes.length; i++){
                     var points = clusterfactory.processRouteData(routes[i]);
                     var markersArr= clusterfactory.createMarkers(points);
-                    $scope.routeobjects.push({route:routes[i],points:points,markers:markersArr,selected:true});
+                    $scope.routeobjects.push({
+                        route:routes[i],
+                        points:points,
+                        markers:markersArr,
+                        selected:true
+                    });
                     markers.push(markersArr);
                 }
 
@@ -33,10 +37,8 @@
                             if(angular.equals(points,$scope.multipoints[i])){
                                 idx = i;
                                 break;
-                            };
+                            }
                         }
-                        console.log(idx);
-
 
                         if(idx != -1){
                             $scope.multipoints.splice(idx, 1);
@@ -72,6 +74,28 @@
                             });
                 };
 
+                $scope.removeRoutes = function(item, index){
+                    mapdatafactory.removeRoute(item.route._id).then(function(deleteRoute){
+                        $scope.routeobjects.splice(index, 1);
+                        $scope.markerClusterer.removeMarkers(item.markers);
+
+                            var indx = -1;
+
+                            for(var i = 0; i<$scope.multipoints.length;i++){
+
+                                if(angular.equals(item.points,$scope.multipoints[i])){
+                                    indx = i;
+                                    break;
+                                }
+                            }
+
+                            if(indx != -1){
+                                $scope.multipoints.splice(indx, 1);
+                            }
+
+                    });
+                };
+
                 $(".file-upload-btns").hide();
 
                 $('input[type=file]').change(function(){
@@ -85,8 +109,6 @@
                 });
 
                 $scope.ResetUpload = function(){
-                    $scope.multiPoints = [];
-                    $scope.markerClusterer.clearMarkers();
                     $("#file").val('').clone(true);
                     progressbarstatus(0);
                     $(".file-upload-btns").hide();
@@ -187,6 +209,8 @@
 
                                     var LatLng = clusterfactory.processRouteData(data);
 
+                                    console.log(LatLng);
+
                                     var markers = clusterfactory.createMarkers(LatLng);
 
                                     $scope.mapCenter = LatLng[1];
@@ -197,7 +221,7 @@
                                             markers:markers,
                                             selected:true
                                     });
-                                    $scope.multiPoints.push(LatLng);
+                                    $scope.multipoints.push(LatLng);
 
 
                                     progressbarstatus(100);

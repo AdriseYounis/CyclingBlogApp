@@ -104,6 +104,35 @@ router.get('/routes/:id', function(req,res,next){
     });
 });
 
+
+router.delete('/routes/:id', auth, function(req,res,next){
+    var id = req.params.id;
+
+    var query = cyclingroutesSchema.findByIdAndRemove(id);
+
+    query.exec(function(err, route) {
+        if(err){
+            next(err);
+            res.send(err);
+        }
+
+        User.findById(req.payload._id).exec(function(err, user){
+           if(err){
+               next(err);
+           } else{
+               user.routes.pull(id);
+               user.save(function(err){
+                   if(err){
+                       console.log(err);
+                       next(err);
+                   }
+               });
+           }
+        });
+            res.json(route);
+    });
+});
+
     //storing the cycling routes
 router.post('/uploadRoutes', auth, function(req,res, next){
 

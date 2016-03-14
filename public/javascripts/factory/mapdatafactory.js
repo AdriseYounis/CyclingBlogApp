@@ -47,6 +47,18 @@
 
                 };
 
+                mapdata.removeRoute = function (_id) {
+                    return $http.delete('/routes/'+_id, {headers: {Authorization:'Bearer '+ auth.getToken()}})
+                        .then(function(data){
+                                console.log(data);
+                                return data.data;
+                            },
+                            function(data){
+                                console.log(data);
+                            });
+
+                };
+
                 return mapdata;
     }]);
 
