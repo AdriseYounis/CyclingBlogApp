@@ -6,6 +6,35 @@
     app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes', 'clusterfactory',
             function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, clusterfactory) {
 
+                //create map
+
+                L.mapbox.accessToken = 'pk.eyJ1IjoiYWRyaXNlMjEyIiwiYSI6ImNpbHZibnQyMzAwN2p3MW02MmU1cnJlejMifQ.YYrz6UXV1v3znvcJLiIj-Q';
+
+                var map = L.map('map')
+                    .addLayer(L.mapbox.tileLayer('mapbox.streets'))
+                    .setView([52.48624, -1.89040], 8);
+
+
+                var line_points = clusterfactory.processMultiRoutes(routes);
+
+                L.multiPolyline(line_points, {color: 'red'}).addTo(map); //gets the line
+
+
+                var multimarkers = clusterfactory.createMultiMarkers(line_points);
+
+                for(var j = 0; j < multimarkers.length; j++){
+                    map.addLayer(multimarkers[j]);
+                }
+
+
+
+
+                //console.log(line_points);
+                //L.multiPolyline(line_points).addTo(map);
+
+
+                //starts here
+
                 $scope.mapCenter  = "current-location";
                 $scope.multipoints = clusterfactory.processMultiRoutes(routes);
 
@@ -49,12 +78,6 @@
                         $scope.markerClusterer.addMarkers($scope.routeobjects[index].markers);
                     }
                 };
-
-                //$scope.WriteBlog = function(item) {
-                //    console.log(item.route._id);
-                //    $state.go("post")
-                //
-                //};
 
                 $scope.displayRoute = function(_id){
 
@@ -211,19 +234,23 @@
 
                                     var LatLng = clusterfactory.processRouteData(data);
 
-                                    console.log(LatLng);
+                                    L.polyline(LatLng, {color: 'blue'}).addTo(map);
 
-                                    var markers = clusterfactory.createMarkers(LatLng);
+                                    var sds = clusterfactory.createMarkers(LatLng);
 
-                                    $scope.mapCenter = LatLng[1];
-                                    $scope.markerClusterer.addMarkers(markers);
-                                    $scope.routeobjects.push({
-                                            route:data,
-                                            points:LatLng,
-                                            markers:markers,
-                                            selected:true
-                                    });
-                                    $scope.multipoints.push(LatLng);
+                                        map.addLayer(sds);
+
+
+
+                                    //$scope.mapCenter = LatLng[1];
+                                    //$scope.markerClusterer.addMarkers(markers);
+                                    //$scope.routeobjects.push({
+                                    //        route:data,
+                                    //        points:LatLng,
+                                    //        markers:markers,
+                                    //        selected:true
+                                    //});
+                                    //$scope.multipoints.push(LatLng);
 
 
                                     progressbarstatus(100);

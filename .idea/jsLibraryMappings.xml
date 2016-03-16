@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{CyclingBlogApp node_modules}" />
-    <file url="PROJECT" libraries="{DBSCAN, angular, angular-animate, angular-google-maps, angular-simple-logger, angular-ui-router, bootstrap, geo, jasny-bootstrap, jquery, jquery.fullPage, jquery.geolocation, jszip, lodash, markerclusterer, markerclusterer_packed, ng-map}" />
+    <file url="PROJECT" libraries="{DBSCAN, angular, angular-animate, angular-google-maps, angular-simple-logger, angular-ui-router, bootstrap, geo, jasny-bootstrap, jquery, jquery.fullPage, jquery.geolocation, jszip, leaflet, leaflet.markercluster, lodash, mapbox, markerclusterer, markerclusterer_packed, ng-map}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

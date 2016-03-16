@@ -16,7 +16,7 @@
             //loop through to the data that has been uploaded and return it
             clusterData.processRouteData = function(data){
                 var coordinates = data.geom.coordinates.map(function (coor) {
-                    var latlon = new google.maps.LatLng(coor[0], coor[1]); //get the lat//lon
+                    var latlon = new L.LatLng(coor[0], coor[1]); //get the lat//lon
                     return latlon;
                 });
 
@@ -46,15 +46,22 @@
 
             //creating an array of markers
             clusterData.createMarkers = function (data) {
-                return data.map(function(item){
-                    return new google.maps.Marker({position: item});
-                });
+                var markers = new L.MarkerClusterGroup();
+
+                for(var g = 0; g < data.length; g++){
+                    var title = "jasir";
+                    var m =  new L.Marker(data[g],{title:title});
+
+                    m.bindPopup(title);
+                    markers.addLayer(m);
+                }
+                console.log(markers);
+                return markers;
             };
 
 
             //processing multi-routes
             clusterData.processMultiRoutes = function(routes){
-
                 return routes.map(function (route) {
                        return clusterData.processRouteData(route);
                 });
@@ -69,9 +76,7 @@
 
             };
 
-
             return clusterData;
-
 
         }]);
 }());

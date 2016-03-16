@@ -27,25 +27,26 @@
         <div class="cd-content">
             <form class="homepage-map-form">
                 <div class="map-wrap">
-                    <ng-map zoom="12" center={{mapCenter}}>
-                <div ng-repeat="points in multipoints">
-                        <shape
-                               name="polyline"
-                               id="foo"
-                               icons="[{
-                                    icon: {
-                                            path: 'CIRCLE',
-                                            scale: 5,
-                                            strokeColor: '#393'
-                                            }, offset: '100%'
-                                    }]"
-                               path="{{points}}"
-                               geodesic="true"
-                               stroke-color={{color}}
-                               stroke-opacity="1"
-                               stroke-weight="5">
-                        </shape></div>
-                    </ng-map>
+                    <!--<ng-map zoom="12" center={{mapCenter}}>-->
+                <!--<div ng-repeat="points in multipoints">-->
+                        <!--<shape-->
+                               <!--name="polyline"-->
+                               <!--id="foo"-->
+                               <!--icons="[{-->
+                                    <!--icon: {-->
+                                            <!--path: 'CIRCLE',-->
+                                            <!--scale: 5,-->
+                                            <!--strokeColor: '#393'-->
+                                            <!--}, offset: '100%'-->
+                                    <!--}]"-->
+                               <!--path="{{points}}"-->
+                               <!--geodesic="true"-->
+                               <!--stroke-color={{color}}-->
+                               <!--stroke-opacity="1"-->
+                               <!--stroke-weight="5">-->
+                        <!--</shape></div>-->
+                    <!--</ng-map>-->
+                    <div id="map"></div>
                 </div>
             </form>
                 <div class="panel panel-default show-routeinfo">

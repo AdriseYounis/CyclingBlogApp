@@ -22,5 +22,8 @@
     <orderEntry type="library" name="DBSCAN" level="application" />
     <orderEntry type="library" name="markerclusterer" level="application" />
     <orderEntry type="library" name="markerclusterer_packed" level="application" />
+    <orderEntry type="library" name="leaflet" level="application" />
+    <orderEntry type="library" name="mapbox" level="application" />
+    <orderEntry type="library" name="leaflet.markercluster" level="application" />
   </component>
 </module>
