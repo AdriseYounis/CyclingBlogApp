@@ -44,7 +44,23 @@
                     .state('post', {
                         url: '/post',
                         templateUrl: "templates/post.html",
-                        controller: "postcontroller"
+                        controller: "post",
+                        params:{
+                            routeId: null
+                        },
+                        resolve:{
+                            route:["$stateParams", function($stateParams){
+                                console.log($stateParams.routeId);
+                                return $stateParams.routeId;
+                            }]
+
+                        }
+                    })
+
+                    .state('blogs', {
+                        url: '/blogs',
+                        templateUrl: "templates/blogs.html",
+                        controller: "blogs",
                     })
 
                     .state('setting', {

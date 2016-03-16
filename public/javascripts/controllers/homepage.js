@@ -3,8 +3,8 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes','$location', 'clusterfactory',
-            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, $location, clusterfactory) {
+    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes', 'clusterfactory',
+            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, clusterfactory) {
 
                 $scope.mapCenter  = "current-location";
                 $scope.multipoints = clusterfactory.processMultiRoutes(routes);
@@ -50,9 +50,11 @@
                     }
                 };
 
-                $scope.WriteBlog = function() {
-                    $location.path("post");
-                };
+                //$scope.WriteBlog = function(item) {
+                //    console.log(item.route._id);
+                //    $state.go("post")
+                //
+                //};
 
                 $scope.displayRoute = function(_id){
 

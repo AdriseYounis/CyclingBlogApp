@@ -6,17 +6,21 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('postcontroller', ['$scope', '$state', 'auth', 'postfactory',
+    app.controller('post', ['$scope', '$state', 'auth', 'postfactory',
             function ($scope, $state, auth, postfactory) {
 
                 $scope.posts = postfactory.posts;
 
+                console.log(postfactory.posts);
+
                 $scope.userName = auth.currentUser();
+
                 $('.post-btn').hide();
+                $('.cancel-btn').show();
 
                 $scope.showButtonsPlease = function(){
 
-                    if((!$scope.htmlVariable || $scope.htmlVariable === '')) {
+                    if((!$scope.htmlVariable || $scope.htmlVariable === '' && !$scope.title || $scope.title)) {
                         $('.post-btn').hide();
                     }
                     else{
@@ -28,9 +32,9 @@
 
                     if(!$scope.htmlVariable || $scope.htmlVariable === '') { return; }
 
-                    $scope.posts.push({title:$scope.htmlVariable, upvotes:0});
+                    $scope.posts.push({title:$scope.title, message: $scope.htmlVariable, upvotes:0});
+                    $scope.title ='';
                     $scope.htmlVariable ='';
-
                 };
 
                 $scope.incrementUpvotes = function(post) {
