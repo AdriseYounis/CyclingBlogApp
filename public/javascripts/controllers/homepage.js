@@ -19,7 +19,6 @@
 
                 L.multiPolyline(line_points, {color: 'red'}).addTo(map); //gets the line
 
-
                 var multimarkers = clusterfactory.createMultiMarkers(line_points);
 
                 for(var j = 0; j < multimarkers.length; j++){
@@ -27,11 +26,35 @@
                 }
 
 
+                $scope.removeRoutes = function(item, index) {
 
+                    mapdatafactory.removeRoute(item.route._id).then(function(deleteRoute){
 
-                //console.log(line_points);
-                //L.multiPolyline(line_points).addTo(map);
+                        $scope.routeobjects.splice(index, 1);
 
+                        var LatLng = clusterfactory.processRouteData(deleteRoute);
+
+                        var markers = clusterfactory.createMultiMarkers(LatLng);
+
+                        map.removeLayer(markers);
+
+                        var indx = -1;
+
+                                for(var i = 0; i<$scope.multipoints.length;i++){
+
+                                        if(angular.equals(item.points,$scope.multipoints[i])){
+                                            indx = i;
+                                            break;
+                                        }
+                                    }
+
+                                    if(indx != -1){
+                                        $scope.multipoints.splice(indx, 1);
+                                    }
+
+                     });
+
+                };
 
                 //starts here
 
@@ -58,8 +81,11 @@
                 });
 
                 $scope.selectingRoutes = function(index, points){
+
                     if(!$scope.routeobjects[index].selected){
+
                         $scope.markerClusterer.removeMarkers($scope.routeobjects[index].markers);
+
                         var idx = -1;
 
                         for(var i = 0; i<$scope.multipoints.length;i++){
@@ -99,27 +125,29 @@
                             });
                 };
 
-                $scope.removeRoutes = function(item, index){
-                    mapdatafactory.removeRoute(item.route._id).then(function(deleteRoute){
-                        $scope.routeobjects.splice(index, 1);
-                        $scope.markerClusterer.removeMarkers(item.markers);
-
-                            var indx = -1;
-
-                            for(var i = 0; i<$scope.multipoints.length;i++){
-
-                                if(angular.equals(item.points,$scope.multipoints[i])){
-                                    indx = i;
-                                    break;
-                                }
-                            }
-
-                            if(indx != -1){
-                                $scope.multipoints.splice(indx, 1);
-                            }
-
-                    });
-                };
+                //$scope.removeRoutes = function(item, index){
+                //    mapdatafactory.removeRoute(item.route._id).then(function(deleteRoute){
+                //
+                //        $scope.routeobjects.splice(index, 1);
+                //
+                //        $scope.markerClusterer.removeMarkers(item.markers);
+                //
+                //            var indx = -1;
+                //
+                //            for(var i = 0; i<$scope.multipoints.length;i++){
+                //
+                //                if(angular.equals(item.points,$scope.multipoints[i])){
+                //                    indx = i;
+                //                    break;
+                //                }
+                //            }
+                //
+                //            if(indx != -1){
+                //                $scope.multipoints.splice(indx, 1);
+                //            }
+                //
+                //    });
+                //};
 
                 $(".file-upload-btns").hide();
 
@@ -238,7 +266,7 @@
 
                                     var sds = clusterfactory.createMarkers(LatLng);
 
-                                        map.addLayer(sds);
+                                    map.addLayer(sds);
 
 
 

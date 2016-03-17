@@ -33,7 +33,7 @@
                         },
                         //loaded first in the state before everything else
                         resolve: {
-                            routes: ['mapdatafactory','clusterfactory', function (mapdatafactory, clusterfactory) {
+                            routes: ['mapdatafactory', function (mapdatafactory) {
                                 return mapdatafactory.getAllRoutes().then(function(data){
                                         return data;
                                 });

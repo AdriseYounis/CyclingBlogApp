@@ -35,7 +35,8 @@
                 };
 
                 mapdata.getSingleRoute = function (_id) {
-                          return $http.get('/routes/'+_id, {headers: {Authorization:'Bearer '+ auth.getToken()}})
+
+                    return $http.get('/routes/'+_id, {headers: {Authorization:'Bearer '+ auth.getToken()}})
                               .then(function(data){
 
                                   return data.data;
@@ -48,6 +49,7 @@
                 };
 
                 mapdata.removeRoute = function (_id) {
+
                     return $http.delete('/routes/'+_id, {headers: {Authorization:'Bearer '+ auth.getToken()}})
                         .then(function(data){
                                 console.log(data);
