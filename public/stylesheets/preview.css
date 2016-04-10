@@ -1,6 +1,5 @@
 body {}
 .header {
-    position: fixed;
     top: 0;
     height: 12%;
     width: 100%;
@@ -13,12 +12,15 @@ body {}
     width: 12%;
 }
 
+
 .modal-header {
     border-bottom: 1px solid #eee;
     background-color: #0480be;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color: white;
+    position: relative;
+    z-index: 3;
 }
 
 .formPosition{

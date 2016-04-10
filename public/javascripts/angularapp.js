@@ -1,17 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('cyclingblog', ['ui.router', 'ngMap', 'textAngular'])
+    angular.module('cyclingblog', ['ui.router', 'textAngular'])
         .config([
         "$stateProvider",
         "$urlRouterProvider",
-        "$provide",
-            function($stateProvider,$urlRouterProvider, $provide) {
-
-                //$provide
-                //    .decorator('taOptions', ['$delegate', function(taOptions){
-                //
-                //    }]);
+            function($stateProvider,$urlRouterProvider) {
 
                 $stateProvider
                     .state('preview', {
@@ -22,7 +16,12 @@
                             if (auth.isLoggedIn()) {
                                 $state.go('homepage');
                             }
-                        }]
+                        }],
+                        resolve: {
+                            postPromise: ['postfactory', function(postfactory){
+                                return postfactory.getAll();
+                            }]
+                        }
                     })
                     .state('homepage', {
                         url: '/homepage',
@@ -42,18 +41,14 @@
                         }
                     })
                     .state('post', {
-                        url: '/post',
+                        url: '/post/{routeId}',
                         templateUrl: "templates/post.html",
                         controller: "post",
-                        params:{
-                            routeId: null
-                        },
                         resolve:{
-                            route:["$stateParams", function($stateParams){
-                                console.log($stateParams.routeId);
-                                return $stateParams.routeId;
+                            route:["$stateParams", "mapdatafactory", function($stateParams,mapdatafactory){
+                                console.log("yo" , $stateParams.routeId);
+                                return mapdatafactory.getSingleRoute($stateParams.routeId);
                             }]
-
                         }
                     })
 
@@ -61,7 +56,44 @@
                         url: '/blogs',
                         templateUrl: "templates/blogs.html",
                         controller: "blogs",
+                        resolve: {
+                            postPromise: ['postfactory', function(postfactory){
+                                return postfactory.getAll();
+                            }]
+                        }
                     })
+
+                    .state('blog', {
+                        url: '/blog/{id}',
+                        templateUrl: "templates/blog.html",
+                        controller: "blog",
+                        resolve: {
+                            post: ['$stateParams', 'postfactory', function($stateParams, postfactory) {
+                                console.log("yo u here");
+                                return postfactory.get($stateParams.id);
+                            }]
+                        }
+                    })
+
+                    .state('myBlogs', {
+                        url: '/myBlogs',
+                        templateUrl: "templates/myBlogs.html",
+                        controller: "myBlogs",
+                        resolve: {
+                            myBlogs: ['postfactory', function(postfactory) {
+
+                                return postfactory.myBlogs();
+                            }]
+                        }
+
+                    })
+
+                    .state('about', {
+                        url: '/about',
+                        templateUrl: "templates/about.html",
+                        controller: "about"
+                    })
+
 
                     .state('setting', {
                         url: '/setting',

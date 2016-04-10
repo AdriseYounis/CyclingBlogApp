@@ -6,39 +6,61 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('post', ['$scope', '$state', 'auth', 'postfactory',
-            function ($scope, $state, auth, postfactory) {
+    app.controller('post', ['$scope', '$state', 'auth', 'postfactory', 'route', 'clusterfactory',
+            function ($scope, $state, auth, postfactory, route, clusterfactory) {
 
-                $scope.posts = postfactory.posts;
 
-                console.log(postfactory.posts);
+                L.mapbox.accessToken = 'pk.eyJ1IjoiYWRyaXNlMjEyIiwiYSI6ImNpbHZibnQyMzAwN2p3MW02MmU1cnJlejMifQ.YYrz6UXV1v3znvcJLiIj-Q';
+
+                var map = L.map('blogMap')
+                    .addLayer(L.mapbox.tileLayer('mapbox.streets'))
+                    .setView([52.48624, -1.89040], 8);
+
+
+                var line_points = clusterfactory.processRouteData(route);
+
+                L.polyline(line_points, {color: 'blue'}).addTo(map);
+
+                var markers = clusterfactory.createMarkers(line_points);
+
+                map.addLayer(markers);
+
+                map.setView(line_points[0], line_points[line_points -1], 10);
+
 
                 $scope.userName = auth.currentUser();
 
-                $('.post-btn').hide();
+                $('.post-btn').show();
                 $('.cancel-btn').show();
 
-                $scope.showButtonsPlease = function(){
+                $(".cancel-btn").click(function(){
+                    $state.go("homepage");
+                });
 
-                    if((!$scope.htmlVariable || $scope.htmlVariable === '' && !$scope.title || $scope.title)) {
-                        $('.post-btn').hide();
-                    }
-                    else{
-                        $('.post-btn').show();
+
+                $scope.CheckForm = function(){
+
+                    if($scope.htmlVariable === '' && $scope.title === ''){
+
+                        alert("Yo");
+
                     }
                 };
 
                 $scope.addPost = function(){
 
-                    if(!$scope.htmlVariable || $scope.htmlVariable === '') { return; }
+                    if(!$scope.title || $scope.title === '') { return; }
+                    postfactory.create({
+                        title: $scope.title,
+                        route: route._id,
+                        blogBody: $scope.htmlVariable
+                    });
+                    $scope.title = '';
+                    $scope.htmlVariable = '';
 
-                    $scope.posts.push({title:$scope.title, message: $scope.htmlVariable, upvotes:0});
-                    $scope.title ='';
-                    $scope.htmlVariable ='';
-                };
 
-                $scope.incrementUpvotes = function(post) {
-                    post.upvotes += 1;
+                    $state.go("blogs");
+
                 };
 
             }]);

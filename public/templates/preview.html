@@ -6,6 +6,7 @@
             <button id="btnSignPage" class="btn btn-default btn-md" data-toggle="modal" data-target="#signupModel">Sign up</button>
         </div>
     </div>
+
 </div>
 
 <div class="modal" id="loginModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -22,12 +23,12 @@
                     <div class="form-group">
                         <br/>
                         <label><span class="glyphicon glyphicon-user"></span> Email</label>
-                        <input type="text" class="form-control" ng-model="user.email" placeholder="Email">
+                        <input type="text" class="form-control" required ng-model="user.email" placeholder="Email">
                     </div>
 
                     <div class="form-group">
                         <label><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-                        <input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+                        <input type="password" class="form-control" required ng-model="user.password" placeholder="Password">
                         <br/>
                     </div>
                     <button type="submit" class="btn btn-success btn-block formButtons"><span class="glyphicon glyphicon-off"></span> Login</button>
@@ -53,22 +54,22 @@
                     <div class="form-group">
                         <br/>
                         <label><span class="glyphicon glyphicon-user"></span> Name</label>
-                        <input type="text" class="form-control buttonSize" ng-model="user.name" placeholder="Your name" />
+                        <input type="text" class="form-control buttonSize" required ng-model="user.name" placeholder="Your name" />
                     </div>
 
                     <div class="form-group">
                         <label><span class="fa fa-envelope"></span> Email</label>
-                        <input type="text" class="form-control buttonSize" ng-model="user.email" placeholder="Email" />
+                        <input type="text" class="form-control buttonSize" required ng-model="user.email" placeholder="Email" />
                     </div>
 
                     <div class="form-group">
                         <label><span class="fa fa-user-secret"></span> Username</label>
-                        <input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+                        <input type="text" class="form-control" required ng-model="user.username" placeholder="Username">
                     </div>
 
                     <div class="form-group">
                         <label><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-                        <input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+                        <input type="password" class="form-control" required ng-model="user.password" placeholder="Password">
                         <br/>
                     </div>
                     <button type="submit" class="btn btn-success btn-block formButtons"><span class="fa fa-user-plus"></span> Create Account </button>
@@ -103,3 +104,27 @@
         </div>
     </div>
 </div>
+
+<main class="cd-main preview-main">
+    <section class="cd-section">
+        <header>
+            <div class="cd-title page-header">
+                <h2>Blogs</h2>
+            </div>
+        </header>
+        <div class="cd-content">
+
+            <div class="list-group">
+                <div  class="list-group-item list-group-item-heading" ng-repeat="post in posts| limitTo:8">
+                <span>
+                <a href="#/blog/{{post._id}}">{{post.title}}</a></span>
+                    {{post.message}}
+                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
+                    {{post.upvotes}}
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>

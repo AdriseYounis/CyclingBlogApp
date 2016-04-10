@@ -1,5 +1,5 @@
 /**
- * Created by Adries on 15/03/2016.
+ * Created by Adries on 10/04/2016.
  */
 
 (function () {
@@ -7,16 +7,17 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('blogs', ['$scope', '$state', 'auth', 'postfactory',
-        function ($scope, $state, auth, postfactory) {
+    app.controller('myBlogs', ['$scope', 'auth', 'postfactory', 'myBlogs',
+        function ($scope, auth, postfactory, myBlogs) {
 
             $scope.userName = auth.currentUser();
 
-            $scope.posts = postfactory.posts;
+            $scope.posts = myBlogs;
 
             $scope.incrementUpvotes = function(post) {
                 postfactory.upvote(post);
             };
+
 
         }]);
 

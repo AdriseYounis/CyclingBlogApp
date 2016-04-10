@@ -7,8 +7,8 @@
     var app = angular.module('cyclingblog');
 
     app.controller('registration',
-        ['$scope', '$state', 'auth',
-            function ($scope, $state, auth) {
+        ['$scope', '$state', 'auth','postfactory',
+            function ($scope, $state, auth,postfactory) {
 
         $scope.user = {};
 
@@ -28,6 +28,17 @@
                 $state.go('homepage');
             });
          };
+
+
+        $scope.posts = postfactory.posts;
+                console.log($scope.posts);
+
+
+        $scope.incrementUpvotes = function(post) {
+            postfactory.upvote(post);
+        };
+
+
     }]);
 
 }());

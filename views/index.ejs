@@ -4,7 +4,6 @@
       <title><%= title %></title>
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.7/jquery.fullPage.min.css" />
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" href="/bower_components/textAngular/dist/textAngular.css">
       <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
@@ -17,7 +16,9 @@
       <link rel="stylesheet" type="text/css" href="/stylesheets/homepage.css">
       <link rel="stylesheet" type="text/css" href="/stylesheets/post.css">
       <link rel="stylesheet" type="text/css" href="/stylesheets/blogs.css">
-
+      <link rel="stylesheet" type="text/css" href="/stylesheets/blog.css">
+      <link rel="stylesheet" type="text/css" href="/stylesheets/about.css">
+      <link rel="stylesheet" type="text/css" href="/stylesheets/myBlogs.css">
   </head>
   <body>
       <ui-view></ui-view>
@@ -28,8 +29,8 @@
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.17/angular-ui-router.js"></script>
       <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
-      <script type="text/javascript" src="http://rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.min.js"></script>
-      <script type="text/javascript" data-require="jszip@2.4.0" data-semver="2.4.0" src="https://cdn.rawgit.com/Stuk/jszip/v2.4.0/dist/jszip.js"></script>
+      <script type="text/javascript" src="/bower_components/ng-maps/dist/ng-maps.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
       <script type="text/javascript" src="/bower_components/randomcolor/randomColor.js"></script>
       <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
       <script type="text/javascript" src="/bower_components/textAngular/dist/textAngular-rangy.min.js"></script>
@@ -45,9 +46,13 @@
       <script type="text/javascript" src="/javascripts/controllers/homepage.js"></script>
       <script type="text/javascript" src="/javascripts/controllers/post.js"></script>
       <script type="text/javascript" src="/javascripts/controllers/blogs.js"></script>
+      <script type="text/javascript" src="/javascripts/controllers/blog.js"></script>
+      <script type="text/javascript" src="/javascripts/controllers/myBlogs.js"></script>
+      <script type="text/javascript" src="/javascripts/controllers/about.js"></script>
       <script type="text/javascript" src="/javascripts/factory/postfactory.js"></script>
       <script type="text/javascript" src="/javascripts/factory/mapdatafactory.js"></script>
       <script type="text/javascript" src="/javascripts/factory/clusterfactory.js"></script>
+
 
 
   </body>

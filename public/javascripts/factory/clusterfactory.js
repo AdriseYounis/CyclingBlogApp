@@ -7,14 +7,13 @@
 
     var app = angular.module('cyclingblog');
 
-    app.factory('clusterfactory', ['$http', 'auth', 'NgMap', '$q',
+    app.factory('clusterfactory', ['$http', 'auth', '$q',
 
         function($http, auth, NgMap, $q){
 
             var clusterData = {};
 
                 //loop through to the data that has been uploaded and return it
-
             clusterData.processRouteData = function(data){
                 var coordinates = data.geom.coordinates.map(function (coor) {
                     var latlon = new L.LatLng(coor[0], coor[1]); //get the lat//lon
@@ -66,23 +65,23 @@
             //not using
 
 
-            //cluster a single route
-            clusterData.clusterMarkers = function (markers) {
-                return NgMap.getMap().then(function(map) {
-                    return new MarkerClusterer(map, markers, {});
-                });
-            };
-
-            //cluster multiple routes
-            clusterData.clusterMultipleRoutes = function(multiMarkerArray){
-                return NgMap.getMap().then(function(map) {
-                    var flatMarkers = [];
-                    for (var i = 0; i < multiMarkerArray.length; i++) {
-                        Array.prototype.push.apply(flatMarkers, multiMarkerArray[i]);
-                    }
-                    return new MarkerClusterer(map, flatMarkers, {});
-                });
-            };
+            ////cluster a single route
+            //clusterData.clusterMarkers = function (markers) {
+            //    return NgMap.getMap().then(function(map) {
+            //        return new MarkerClusterer(map, markers, {});
+            //    });
+            //};
+            //
+            ////cluster multiple routes
+            //clusterData.clusterMultipleRoutes = function(multiMarkerArray){
+            //    return NgMap.getMap().then(function(map) {
+            //        var flatMarkers = [];
+            //        for (var i = 0; i < multiMarkerArray.length; i++) {
+            //            Array.prototype.push.apply(flatMarkers, multiMarkerArray[i]);
+            //        }
+            //        return new MarkerClusterer(map, flatMarkers, {});
+            //    });
+            //};
 
             return clusterData;
 

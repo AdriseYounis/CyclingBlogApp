@@ -3,10 +3,11 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', 'NgMap', '$interval','routes', 'clusterfactory',
-            function ($scope,$state, auth, $window, mapdatafactory, NgMap, $interval, routes, clusterfactory) {
+    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', '$interval','routes', 'clusterfactory',
+            function ($scope,$state, auth, $window, mapdatafactory, $interval, routes, clusterfactory) {
 
                 //create map
+
 
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRyaXNlMjEyIiwiYSI6ImNpbHZibnQyMzAwN2p3MW02MmU1cnJlejMifQ.YYrz6UXV1v3znvcJLiIj-Q';
 
@@ -32,26 +33,28 @@
 
                         $scope.routeobjects.splice(index, 1);
 
+
                         var LatLng = clusterfactory.processRouteData(deleteRoute);
 
                         var markers = clusterfactory.createMultiMarkers(LatLng);
+
+                        var multiPolyline =  L.multiPolyline(LatLng, {color: 'red'});
 
                         map.removeLayer(markers);
 
                         var indx = -1;
 
-                                for(var i = 0; i<$scope.multipoints.length;i++){
+                            for(var i = 0; i< multiPolyline.length; i++){
 
-                                        if(angular.equals(item.points,$scope.multipoints[i])){
-                                            indx = i;
-                                            break;
-                                        }
-                                    }
+                                if(angular.equals(item.points, multiPolyline[i])){
+                                    indx = i;
+                                    break;
+                                }
+                            }
 
-                                    if(indx != -1){
-                                        $scope.multipoints.splice(indx, 1);
-                                    }
-
+                                if(indx != -1){
+                                    multiPolyline.splice(indx, 1);
+                                }
                      });
 
                 };
@@ -76,9 +79,9 @@
                     markers.push(markersArr);
                 }
 
-                clusterfactory.clusterMultipleRoutes(markers).then(function (data) {
-                    $scope.markerClusterer = data;
-                });
+                //clusterfactory.clusterMultipleRoutes(markers).then(function (data) {
+                //    $scope.markerClusterer = data;
+                //});
 
                 $scope.selectingRoutes = function(index, points){
 

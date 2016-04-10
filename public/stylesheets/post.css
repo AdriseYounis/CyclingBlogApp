@@ -4,11 +4,28 @@
     overflow: auto;
     font-family: inherit;
     font-size: 100%;
-    margin:20px 0;
+    margin:5px 0;
     width: 99%;
 }
 
 .post-btn{
-    float:right;
-    margin: 2%;
+    margin: 0 auto;
+}
+
+.blogMap-wrap{
+    height: 220px;
+    width: 530px;
+    float: right;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+#blogMap{
+    width: 100%;
+    height: 100%
+}
+
+.title{
+    width: 40%;
+    float: left;
 }

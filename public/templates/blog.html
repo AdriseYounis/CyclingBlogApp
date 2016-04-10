@@ -19,29 +19,32 @@
     <section class="cd-section">
         <header>
             <div class="cd-title page-header">
-                <h2>Post a blog</h2>
+                <h1>{{post.title}} </h1>
             </div>
         </header>
         <div class="cd-content">
 
-            <form ng-submit="addPost()">
+            <div class="blogMap-wrap">
+                <div id="blogMap"></div>
+            </div>
 
-                <div class="blogMap-wrap">
-                    <div id="blogMap"></div>
+
+           <div class="bob">
+               <text-angular ta-bind ng-model="post.blogBody"></text-angular>
+           </div>
+
+            <form ng-submit="addComment()">
+
+                <div class=" hack-div  form-group">
+                    <input disabled class="form-control">
                 </div>
 
-                <h4>Blog Title</h4>
+                <div class="form-group">
+                    <h6 id="comment-form-label">Add a new comment</h6>
+                    <input type="text" class="form-control" id="comment-text" required placeholder="Comment" ng-model="body">
+                </div>
 
-                    <input type="text" class="title form-control" ng-model="title" placeholder="....">
-
-                <br/>
-                <br/>
-                <br/>
-                <!--<div text-angular-toolbar class="toolbar" name="toolbar" ta-toolbar="[['h1', 'h2', 'p', 'pre', 'quote', 'bold', 'italics', 'underline', 'ul', 'ol', 'justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent', 'insertImage']]"></div>-->
-
-                <text-angular ng-model="htmlVariable" required></text-angular>
-
-                <button type="submit" class="btn btn-primary btn-s post-btn" ng-click="CheckForm()">
+                <button type="submit" class="btn btn-primary btn-s post-btn">
                     <span class="glyphicon glyphicon-upload"></span> Post
                 </button>
 
@@ -49,6 +52,18 @@
                     <span class="glyphicon glyphicon-exclamation-sign"></span> Cancel
                 </button>
             </form>
+
+            <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)">
+                    </span>
+                {{comment.upvotes}} - by {{comment.author}}
+                    <span style="font-size:20px; margin-left:10px;">
+                        {{comment.body}}
+                    </span>
+            </div>
         </div>
     </section>
 </main>
+
+
+
