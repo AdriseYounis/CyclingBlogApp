@@ -9,6 +9,8 @@
 
         <li><a href="#/blogs"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-comment fa-stack-1x"></i></span>Blogs</a></li>
 
+        <li><a href="#/myBlogs"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-comment fa-stack-1x"></i></span>My Blogs</a></li>
+
         <li><a ng-click="logout()"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-sign-out fa-stack-1x"></i></span>Logout</a></li>
     </ul>
 </nav>
@@ -25,9 +27,9 @@
         <div class="cd-content">
 
 <div class="list-group">
-            <div  class="list-group-item list-group-item-heading" ng-repeat="post in posts">
-                <span>
-                <a href="#/blog/{{post._id}}">{{post.title}}</a></span>
+            <div style="width: 1000px" class="list-group-item list-group-item-heading" ng-repeat="post in posts">
+                <h6>
+                <a href="#/blog/{{post._id}}">{{post.title}}</a></h6>
                 {{post.message}}
                 <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
                 {{post.upvotes}}

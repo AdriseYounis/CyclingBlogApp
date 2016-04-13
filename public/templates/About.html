@@ -15,30 +15,19 @@
     </ul>
 </nav>
 
+
 <main class="cd-main">
     <section class="cd-section">
         <header>
             <div class="cd-title page-header">
-                <h2>My Blogs</h2>
+                <h2>About</h2>
             </div>
         </header>
         <div class="cd-content">
 
-            <div class="list-group">
-                <div  style="width: 1000px" class="list-group-item list-group-item-heading" ng-repeat="post in posts">
-                <span>
-                <a href="#/blog/{{post._id}}">{{post.title}}</a></span>
-                    {{post.message}}
-                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
-                    {{post.upvotes}}
-
-                </div>
-            </div>
-
         </div>
     </section>
 </main>
-
 
 
 
