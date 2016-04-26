@@ -42,7 +42,7 @@
 
                     if($scope.htmlVariable === '' && $scope.title === ''){
 
-                        alert("Yo");
+                        alert("Please insert a title or else the blog would not be posted");
 
                     }
                 };

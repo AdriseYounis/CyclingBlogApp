@@ -66,8 +66,6 @@ router.get('/showRoutes', auth , function (req,res,next){
     console.log(req.payload._id);
     //returns a user with all cycling routes data
     User.findById(req.payload._id).populate("routes")
-        //cyclingroutesSchema.find({})
-        //    .select("_id routename");
 
     .exec(function(err, user) {
         if(err){
@@ -101,6 +99,7 @@ router.get('/routes/:id', function(req,res,next){
             next(err);
             res.send(err);
         }else{
+            console.log(route);
             res.json(route);
         }
     });
@@ -284,8 +283,6 @@ router.put('/posts/:post/comments/:comment/upvote', auth, function(req, res, nex
 });
 
 router.get('/myPosts',auth, function(req, res, next) {
-
-
 
     Post.find({author:req.payload._id}).exec(function(err, posts){
         if(err){return next(err); }

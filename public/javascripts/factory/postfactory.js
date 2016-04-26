@@ -41,15 +41,13 @@
             //retrieving a single post
             o.get = function(id) {
                 return $http.get('/posts/' + id).then(function(res){
-                    console.log("res", res);
                     return res.data;
                 });
             };
 
             //adding comments
             o.addComment = function(id, comment) {
-                return $http.post('/posts/' + id + '/comments', comment,
-                    {headers: {Authorization:'Bearer '+ auth.getToken()}});
+                return $http.post('/posts/' + id + '/comments', comment, {headers: {Authorization:'Bearer '+ auth.getToken()}});
             };
 
             //allows to upvote for a comment

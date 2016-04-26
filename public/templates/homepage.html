@@ -14,7 +14,6 @@
         <li><a ng-click="logout()"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-sign-out fa-stack-1x"></i></span>Logout</a></li>
     </ul>
 </nav>
-
 <main class="cd-main">
     <section class="cd-section">
         <header>
@@ -25,25 +24,6 @@
         <div class="cd-content">
             <form class="homepage-map-form">
                 <div class="map-wrap">
-                    <!--<ng-map zoom="12" center={{mapCenter}}>-->
-                <!--<div ng-repeat="points in multipoints">-->
-                        <!--<shape-->
-                               <!--name="polyline"-->
-                               <!--id="foo"-->
-                               <!--icons="[{-->
-                                    <!--icon: {-->
-                                            <!--path: 'CIRCLE',-->
-                                            <!--scale: 5,-->
-                                            <!--strokeColor: '#393'-->
-                                            <!--}, offset: '100%'-->
-                                    <!--}]"-->
-                               <!--path="{{points}}"-->
-                               <!--geodesic="true"-->
-                               <!--stroke-color={{color}}-->
-                               <!--stroke-opacity="1"-->
-                               <!--stroke-weight="5">-->
-                        <!--</shape></div>-->
-                    <!--</ng-map>-->
                     <div id="map"></div>
                 </div>
             </form>
@@ -76,8 +56,6 @@
                              </div>
                             </form>
                         </div>
-
-
                             <div class="route-list-container">
                                     <h4>Route History</h4>
                                 <div class="success-filedetails" ng-repeat="r in routeobjects">
@@ -92,8 +70,7 @@
                                         </button>
                                     </a>
 
-                                    <span ng-click="removeRoutes(r, $index)" class="fa fa-times fa-2x"></span>
-
+                                    <span ng-click="removeRoutes(r, $index)" class="fa fa-times cross fa-2x"></span>
 
                                 </div>
                         </div>

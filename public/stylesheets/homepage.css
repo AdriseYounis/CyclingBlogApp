@@ -9,10 +9,9 @@ body {
     float: left;
 }
 
-/*ng-map{*/
-    /*height: 100%;*/
-    /*width: 100%;*/
-/*}*/
+.cross{
+    color:red;
+}
 
 #map{
     width: 100%;
@@ -34,7 +33,6 @@ body {
     padding: 2.5%;
 }
 .route-list-container{
-
     overflow: scroll;
     margin-top: 5%;
     height: 300px;

@@ -7,8 +7,6 @@
             function ($scope,$state, auth, $window, mapdatafactory, $interval, routes, clusterfactory) {
 
                 //create map
-
-
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRyaXNlMjEyIiwiYSI6ImNpbHZibnQyMzAwN2p3MW02MmU1cnJlejMifQ.YYrz6UXV1v3znvcJLiIj-Q';
 
                 var map = L.map('map')
@@ -202,6 +200,10 @@
                             alert("File not uploaded");
                     } else {
 
+                        if(extensionName != FileType.kmz || extensionName != FileType.gpx || extensionName != FileType.xml){
+                            alert("Unable to upload the file because a unexpected file has been inserted");
+                        }
+
                         //file reader to read the file
                         var reader = new FileReader();
 
@@ -267,11 +269,11 @@
 
                                     L.polyline(LatLng, {color: 'blue'}).addTo(map);
 
-                                    var sds = clusterfactory.createMarkers(LatLng);
+                                    var markers = clusterfactory.createMarkers(LatLng);
 
-                                    map.addLayer(sds);
+                                    map.addLayer(markers);
 
-
+                                    progressbarstatus(100);
 
                                     //$scope.mapCenter = LatLng[1];
                                     //$scope.markerClusterer.addMarkers(markers);
@@ -284,7 +286,7 @@
                                     //$scope.multipoints.push(LatLng);
 
 
-                                    progressbarstatus(100);
+
 
                             });
                         };

@@ -61,6 +61,8 @@
 
             };
 
+            return clusterData;
+
 
             //not using
 
@@ -82,8 +84,6 @@
             //        return new MarkerClusterer(map, flatMarkers, {});
             //    });
             //};
-
-            return clusterData;
 
         }]);
 }());

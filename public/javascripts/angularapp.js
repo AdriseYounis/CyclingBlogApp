@@ -46,7 +46,6 @@
                         controller: "post",
                         resolve:{
                             route:["$stateParams", "mapdatafactory", function($stateParams,mapdatafactory){
-                                console.log("yo" , $stateParams.routeId);
                                 return mapdatafactory.getSingleRoute($stateParams.routeId);
                             }]
                         }
@@ -69,7 +68,6 @@
                         controller: "blog",
                         resolve: {
                             post: ['$stateParams', 'postfactory', function($stateParams, postfactory) {
-                                console.log("yo u here");
                                 return postfactory.get($stateParams.id);
                             }]
                         }
@@ -81,7 +79,6 @@
                         controller: "myBlogs",
                         resolve: {
                             myBlogs: ['postfactory', function(postfactory) {
-
                                 return postfactory.myBlogs();
                             }]
                         }
@@ -165,6 +162,5 @@
 
         return auth;
     }])
-
 })();
 
