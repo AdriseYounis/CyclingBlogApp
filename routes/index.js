@@ -72,7 +72,12 @@ router.get('/showRoutes', auth , function (req,res,next){
             next(err);
         }
         console.log(user);
+        if(user){
             res.json(user.routes);
+        } else{
+            res.json('');
+        }
+
 
     });
 

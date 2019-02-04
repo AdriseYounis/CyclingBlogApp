@@ -23,12 +23,31 @@
                             }]
                         }
                     })
+
+                    .state('navBar', {
+                    templateUrl: "templates/navbar.html",
+                    controller: "navBar",
+                        abstract:true,
+                        onEnter: ['$state','auth', '$timeout', function ($state,auth, $timeout) {
+                            $('#loginModel').modal("hide");
+
+                            if (!auth.isLoggedIn()) {
+                                $timeout(function(){
+                                    $state.go('preview');
+                                });
+                            }
+                        }]
+                })
+
+
                     .state('homepage', {
                         url: '/homepage',
                         templateUrl: "templates/homepage.html",
                         controller: "homepage",
+                        parent: "navBar",
                         onEnter: function () {
-                            $('#loginModel').modal("toggle");
+
+                                //$('#loginModel').modal("toggle");
                         },
                         //loaded first in the state before everything else
                         resolve: {
@@ -44,6 +63,7 @@
                         url: '/post/{routeId}',
                         templateUrl: "templates/post.html",
                         controller: "post",
+                        parent: "navBar",
                         resolve:{
                             route:["$stateParams", "mapdatafactory", function($stateParams,mapdatafactory){
                                 return mapdatafactory.getSingleRoute($stateParams.routeId);
@@ -55,6 +75,7 @@
                         url: '/blogs',
                         templateUrl: "templates/blogs.html",
                         controller: "blogs",
+                        parent: "navBar",
                         resolve: {
                             postPromise: ['postfactory', function(postfactory){
                                 return postfactory.getAll();
@@ -66,39 +87,28 @@
                         url: '/blog/{id}',
                         templateUrl: "templates/blog.html",
                         controller: "blog",
+                        parent: "navBar",
                         resolve: {
                             post: ['$stateParams', 'postfactory', function($stateParams, postfactory) {
                                 return postfactory.get($stateParams.id);
                             }]
-                        }
+                        }  
                     })
 
                     .state('myBlogs', {
                         url: '/myBlogs',
                         templateUrl: "templates/myBlogs.html",
                         controller: "myBlogs",
+                        parent: "navBar",
                         resolve: {
                             myBlogs: ['postfactory', function(postfactory) {
                                 return postfactory.myBlogs();
                             }]
                         }
 
-                    })
-
-                    .state('about', {
-                        url: '/about',
-                        templateUrl: "templates/about.html",
-                        controller: "about"
-                    })
-
-
-                    .state('setting', {
-                        url: '/setting',
-                        templateUrl: "templates/setting.html",
-                        controller: "setting"
                     });
 
-                $urlRouterProvider.otherwise('preview');
+                $urlRouterProvider.otherwise('homepage');
 
             }
     ])

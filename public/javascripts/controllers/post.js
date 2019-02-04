@@ -6,8 +6,8 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('post', ['$scope', '$state', 'auth', 'postfactory', 'route', 'clusterfactory',
-            function ($scope, $state, auth, postfactory, route, clusterfactory) {
+    app.controller('post', ['$scope', '$state', 'postfactory', 'route', 'clusterfactory',
+            function ($scope, $state, postfactory, route, clusterfactory) {
 
 
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRyaXNlMjEyIiwiYSI6ImNpbHZibnQyMzAwN2p3MW02MmU1cnJlejMifQ.YYrz6UXV1v3znvcJLiIj-Q';
@@ -27,8 +27,6 @@
 
                 map.setView(line_points[0], line_points[line_points -1], 10);
 
-
-                $scope.userName = auth.currentUser();
 
                 $('.post-btn').show();
                 $('.cancel-btn').show();
@@ -54,12 +52,9 @@
                         title: $scope.title,
                         route: route._id,
                         blogBody: $scope.htmlVariable
+                    }).then(function(data){
+                        $state.go("blogs");
                     });
-                    $scope.title = '';
-                    $scope.htmlVariable = '';
-
-
-                    $state.go("blogs");
 
                 };
 

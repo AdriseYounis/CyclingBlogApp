@@ -10,7 +10,7 @@
     app.controller('about', ['$scope', '$state', 'auth',
         function ($scope, $state, auth) {
 
-            $scope.userName = auth.currentUser();
+
 
         }]);
 
