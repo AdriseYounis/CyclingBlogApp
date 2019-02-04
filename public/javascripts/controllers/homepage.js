@@ -3,8 +3,12 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('homepage', ['$scope', '$state', 'auth','$window','mapdatafactory', '$interval','routes', 'clusterfactory',
-            function ($scope,$state, auth, $window, mapdatafactory, $interval, routes, clusterfactory) {
+    app.controller('homepage', ['$scope', '$state','$window','mapdatafactory', '$interval','routes', 'clusterfactory',
+            function ($scope,$state, $window, mapdatafactory, $interval, routes, clusterfactory) {
+
+                //combine routes, multipoints, markers array of object
+                $scope.routeobjects = [];
+                var layergroup = L.layerGroup();
 
                 //create map
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRyaXNlMjEyIiwiYSI6ImNpbHZibnQyMzAwN2p3MW02MmU1cnJlejMifQ.YYrz6UXV1v3znvcJLiIj-Q';
@@ -13,142 +17,76 @@
                     .addLayer(L.mapbox.tileLayer('mapbox.streets'))
                     .setView([52.48624, -1.89040], 8);
 
-
                 var line_points = clusterfactory.processMultiRoutes(routes);
-
-                L.multiPolyline(line_points, {color: 'red'}).addTo(map); //gets the line
-
                 var multimarkers = clusterfactory.createMultiMarkers(line_points);
 
+
                 for(var j = 0; j < multimarkers.length; j++){
+                    var polyline = L.polyline(line_points[j]);
+                    layergroup.addLayer(polyline).addTo(map);
                     map.addLayer(multimarkers[j]);
-                }
 
-
-                $scope.removeRoutes = function(item, index) {
-
-                    mapdatafactory.removeRoute(item.route._id).then(function(deleteRoute){
-
-                        $scope.routeobjects.splice(index, 1);
-
-
-                        var LatLng = clusterfactory.processRouteData(deleteRoute);
-
-                        var markers = clusterfactory.createMultiMarkers(LatLng);
-
-                        var multiPolyline =  L.multiPolyline(LatLng, {color: 'red'});
-
-                        map.removeLayer(markers);
-
-                        var indx = -1;
-
-                            for(var i = 0; i< multiPolyline.length; i++){
-
-                                if(angular.equals(item.points, multiPolyline[i])){
-                                    indx = i;
-                                    break;
-                                }
-                            }
-
-                                if(indx != -1){
-                                    multiPolyline.splice(indx, 1);
-                                }
-                     });
-
-                };
-
-                //starts here
-
-                $scope.mapCenter  = "current-location";
-                $scope.multipoints = clusterfactory.processMultiRoutes(routes);
-
-                //combine routes, multipoints, markers array of object
-                $scope.routeobjects = [];
-                var markers = [];
-                for(var i = 0; i < routes.length; i++){
-                    var points = clusterfactory.processRouteData(routes[i]);
-                    var markersArr= clusterfactory.createMarkers(points);
                     $scope.routeobjects.push({
-                        route:routes[i],
-                        points:points,
-                        markers:markersArr,
+                        route:routes[j],
+                        //points:line_points[j],
+                        polyline:polyline,
+                        markers:multimarkers[j],
                         selected:true
                     });
-                    markers.push(markersArr);
                 }
 
-                //clusterfactory.clusterMultipleRoutes(markers).then(function (data) {
-                //    $scope.markerClusterer = data;
-                //});
-
-                $scope.selectingRoutes = function(index, points){
-
-                    if(!$scope.routeobjects[index].selected){
-
-                        $scope.markerClusterer.removeMarkers($scope.routeobjects[index].markers);
-
-                        var idx = -1;
-
-                        for(var i = 0; i<$scope.multipoints.length;i++){
-                            if(angular.equals(points,$scope.multipoints[i])){
-                                idx = i;
-                                break;
-                            }
-                        }
-
-                        if(idx != -1){
-                            $scope.multipoints.splice(idx, 1);
-                        }
-                    }else{
-
-                        $scope.multipoints.push(points);
-                        $scope.markerClusterer.addMarkers($scope.routeobjects[index].markers);
-                    }
-                };
-
-                $scope.displayRoute = function(_id){
-
-                        mapdatafactory.getSingleRoute(_id)
-                            .then(function (data) {
-
-                                 var LatLng = clusterfactory.processRouteData(data);
-                                 clusterfactory.clusterRoute(LatLng).then(function(clusterItems){
-
-                                     $scope.multiPoints.push(LatLng);
-                                     $scope.color = randomColor({hue: 'random', luminosity: 'random'});
-                                     $scope.mapCenter = LatLng[1];
-                                     $scope.markerClusterer = clusterItems;
-                                 });
-
-                            },
-                                function(err){
-                                console.log(err);
-                            });
-                };
-
-                //$scope.removeRoutes = function(item, index){
+                //$scope.removeRoutes = function(item, index) {
+                //
                 //    mapdatafactory.removeRoute(item.route._id).then(function(deleteRoute){
                 //
                 //        $scope.routeobjects.splice(index, 1);
                 //
-                //        $scope.markerClusterer.removeMarkers(item.markers);
                 //
-                //            var indx = -1;
+                //        var LatLng = clusterfactory.processRouteData(deleteRoute);
                 //
-                //            for(var i = 0; i<$scope.multipoints.length;i++){
+                //        var markers = clusterfactory.createMultiMarkers(LatLng);
                 //
-                //                if(angular.equals(item.points,$scope.multipoints[i])){
+                //        var multiPolyline =  L.multiPolyline(LatLng, {color: 'red'});
+                //
+                //        map.removeLayer(markers);
+                //
+                //        var indx = -1;
+                //
+                //            for(var i = 0; i< multiPolyline.length; i++){
+                //
+                //                if(angular.equals(item.points, multiPolyline[i])){
                 //                    indx = i;
                 //                    break;
                 //                }
                 //            }
                 //
-                //            if(indx != -1){
-                //                $scope.multipoints.splice(indx, 1);
-                //            }
+                //                if(indx != -1){
+                //                    multiPolyline.splice(indx, 1);
+                //                }
+                //     });
                 //
-                //    });
                 //};
+
+                //starts here
+
+                $scope.selectingRoutes = function(index, points){
+
+                    if(!$scope.routeobjects[index].selected){
+                        map.removeLayer($scope.routeobjects[index].markers);
+                        layergroup.removeLayer($scope.routeobjects[index].polyline);
+                    }else{
+                        map.addLayer($scope.routeobjects[index].markers);
+                        layergroup.addLayer($scope.routeobjects[index].polyline);
+                    }
+                };
+
+                $scope.removeRoutes = function(item, index){
+                    mapdatafactory.removeRoute(item.route._id).then(function(deleteRoute){
+                        map.removeLayer($scope.routeobjects[index].markers);
+                        layergroup.removeLayer($scope.routeobjects[index].polyline);
+                        $scope.routeobjects.splice(index,1);
+                    });
+                };
 
                 $(".file-upload-btns").hide();
 
@@ -167,15 +105,6 @@
                     progressbarstatus(0);
                     $(".file-upload-btns").hide();
                 };
-
-                //logs users out and returns them to the homepage
-                $scope.logout = function(){
-                    auth.logout();
-                    $state.go('preview');
-                };
-
-                //assigns username to the scope
-                $scope.userName = auth.currentUser();
 
                 //files types
                 const FileType = {
@@ -199,10 +128,6 @@
                     if (!file) {
                             alert("File not uploaded");
                     } else {
-
-                        if(extensionName != FileType.kmz || extensionName != FileType.gpx || extensionName != FileType.xml){
-                            alert("Unable to upload the file because a unexpected file has been inserted");
-                        }
 
                         //file reader to read the file
                         var reader = new FileReader();
@@ -267,25 +192,27 @@
 
                                     var LatLng = clusterfactory.processRouteData(data);
 
-                                    L.polyline(LatLng, {color: 'blue'}).addTo(map);
+                                    var newPolyline = L.polyline(LatLng, {color: 'blue'});
 
                                     var markers = clusterfactory.createMarkers(LatLng);
 
+                                    layergroup.addLayer(newPolyline).addTo(map);
                                     map.addLayer(markers);
 
+                                    map.fitBounds(newPolyline.getBounds());
+
+
+                                    $scope.routeobjects.push({
+                                        route:data,
+                                        polyline:newPolyline,
+                                        markers:markers,
+                                        selected:true
+                                    });
+
+                                    console.log('the data',data);
+                                    console.log('the latlng',LatLng);
+
                                     progressbarstatus(100);
-
-                                    //$scope.mapCenter = LatLng[1];
-                                    //$scope.markerClusterer.addMarkers(markers);
-                                    //$scope.routeobjects.push({
-                                    //        route:data,
-                                    //        points:LatLng,
-                                    //        markers:markers,
-                                    //        selected:true
-                                    //});
-                                    //$scope.multipoints.push(LatLng);
-
-
 
 
                             });

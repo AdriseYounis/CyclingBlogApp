@@ -7,10 +7,8 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('blog', ['$scope', '$state', 'auth', '$stateParams', 'postfactory', 'post','clusterfactory',
-        function ($scope, $state, auth, $stateParams, postfactory, post,clusterfactory) {
-
-            $scope.userName = auth.currentUser();
+    app.controller('blog', ['$scope', '$state', '$stateParams', 'postfactory', 'post','clusterfactory',
+        function ($scope, $state, $stateParams, postfactory, post,clusterfactory) {
 
             $scope.post = postfactory.posts[$stateParams.id];
 
@@ -34,10 +32,6 @@
 
             map.setView(line_points[0], line_points[line_points -1], 10);
 
-
-
-
-            console.log(post);
 
             //saving the comments
             $scope.addComment = function(){

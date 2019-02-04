@@ -1,0 +1,23 @@
+<div>
+    <nav class="side-navigation">
+        <ul>
+            <div id="profile-pic">
+                <img src="/images/zaki1.jpg" class="img-responsive img-circle  profilepictue">
+                <p class="userName">{{userName}}</p>
+            </div>
+
+            <li><a href="#/homepage"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-home fa-stack-1x"></i></span><span class="nav-link-Text">Home</span></a></li>
+
+            <li><a href="#/blogs"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-comment fa-stack-1x"></i></span><span class="nav-link-Text">Blogs</span></a></li>
+
+            <li><a href="#/myBlogs"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-comment fa-stack-1x"></i></span><span class="nav-link-Text">My Blogs</span></a></li>
+
+            <li><a ng-click="logout()"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x"></i><i class="fa fa-sign-out fa-stack-1x"></i></span><span class="nav-link-Text">Logout</span></a></li>
+        </ul>
+    </nav>
+
+    <div>
+        <ui-view></ui-view>
+    </div>
+
+</div>

@@ -5,10 +5,8 @@
     width: 9%;
     background: #66CDAA;
 }
-ul {
-    position: absolute;
-    list-style: none;
-}
+
+
 ul li a {
     position: relative;
     display: block;
@@ -19,6 +17,11 @@ ul li a {
     color: black;
     font-size: 1.3rem;
 }
+
+ul li a span{
+    display: block;
+}
+
 .profilepictue {
     position: relative;
     margin: 20%;

@@ -4,13 +4,10 @@
     var app = angular.module('cyclingblog');
 
     app.controller('setting',
-        ['$scope', '$state', 'auth',
-            function ($scope,$state, auth) {
+        ['$scope',
+            function ($scope) {
 
-            $scope.logout = function(){
-                auth.logout();
-                $state.go('registration');
-            };
+
 
             $scope.GetFile = function() {
 

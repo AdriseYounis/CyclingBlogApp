@@ -7,10 +7,8 @@
 
     var app = angular.module('cyclingblog');
 
-    app.controller('blogs', ['$scope', '$state', 'auth', 'postfactory',
-        function ($scope, $state, auth, postfactory) {
-
-            $scope.userName = auth.currentUser();
+    app.controller('blogs', ['$scope', 'postfactory',
+        function ($scope, postfactory) {
 
             $scope.posts = postfactory.posts;
 
